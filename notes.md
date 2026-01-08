@@ -1,5 +1,9 @@
 # CS 260 Notes
-# Practicing using Git
+## Practicing using Git
+
+I learned about using git commands via the terminal in VS Code, as well as with the Git website interface.
+
+Big takeaway was that I need to frequently commit my progress
 
 [My startup - Simon](https://simon.cs260.click)
 
