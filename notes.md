@@ -21,7 +21,7 @@ Had to do some waiting before it let me access the domain
 ## Caddy
 
 Command to edit Caddyfile: ssh -i production.pem ubuntu@44.208.157.137
-\n\*make sure to navigate to folder with key pair file (Winter2026\Key260) before running command
+<br>*make sure to navigate to folder with key pair file (Winter2026\Key260) before running command
 
 When editing a vi you have to hit i key to enter insert mode, then you hit esc to go back to command mode. 
 :wq > Enter will save and exit
