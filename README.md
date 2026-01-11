@@ -38,12 +38,12 @@ Ever made a goal to become more financially literate and more aware of how the e
 
 I am going to use the required technologies in the following ways.
 
-- **HTML** - 
-- **CSS** - Description here
-- **React** - Description here
-- **Service** - Description here
-- **DB/Login** - Description here
-- **WebSocket** - Description here
+- **HTML** - Uses correct HTML structure for application. Three HTML pages: login, dashboard, and community of users (may change to just two and exclude the community page as needed). Hyperlink to GitHub.
+- **CSS** - Styling that looks professional and does not distract from conveying key information, including good color choices and clear delineations between financial metrics.
+- **React** - Offers login for users, displays possible selections for financial metrics, displays metrics.
+- **Service** - Backend service with endpoints for login, retrieving selections for APIs.
+- **DB/Login** - Store users, store user selections in their dashboard, register and login users. Can't select dashboard items without authentication.
+- **WebSocket** - As each user creates an account, other users are notified who made a new account.
 
 ## 🚀 AWS deliverable
 
