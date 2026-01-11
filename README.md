@@ -23,7 +23,7 @@ Ever made a goal to become more financially literate and more aware of how the e
 
 ### Design
 
-![Design image](startup\Startup Design-Login.jpg)
+![Design image](startup\Startup-Design-Login.jpg)
 
 ### Key features
 
