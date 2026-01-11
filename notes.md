@@ -16,7 +16,7 @@ Big takeaway was that I need to frequently commit my progress
 ## AWS
 
 IP Address: 44.208.157.137
-Had to do some waiting before it let me access the domain
+<br>Had to do some waiting before it let me access the domain
 
 ## Caddy
 
@@ -24,8 +24,8 @@ Command to edit Caddyfile: ssh -i production.pem ubuntu@44.208.157.137
 <br>*make sure to navigate to folder with key pair file (Winter2026\Key260) before running command
 
 When editing a vi you have to hit i key to enter insert mode, then you hit esc to go back to command mode. 
-:wq > Enter will save and exit
-:w will save and let you continue
+<br>:wq > Enter will save and exit
+<br>:w will save and let you continue
 
 ## HTML
 
