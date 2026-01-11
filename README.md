@@ -2,7 +2,7 @@
 
 [My Notes](notes.md)
 
-This application serves as a centralized dashboard for key financial metrics of interest to the user. Users can select from different option such as the price of a stock, the current federal funds rate, and the rate of inflation. Users will login, be able to customize which key indicators they would like to display, save their preferences, and receive notifications when another user logs in.
+This application serves as a centralized dashboard for key financial metrics of interest to the user. Users can select from different options such as the price of a stock, the current federal funds rate, and the rate of inflation. Users will login, be able to customize which key indicators they would like to display, save their preferences, and receive notifications when another user logs in.
 
 ## 🚀 Specification Deliverable
 
@@ -23,16 +23,7 @@ Ever made a goal to become more financially literate and more aware of how the e
 
 ### Design
 
-![Design image](placeholder.png)
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-
-```mermaid
-sequenceDiagram
-    actor You
-    actor Website
-    You->>Website: Replace this with your design
-```
+![Design image](Startup Design-Login)
 
 ### Key features
 
