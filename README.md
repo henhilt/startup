@@ -13,9 +13,9 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 - [x] Proper use of Markdown
 - [x] A concise and compelling elevator pitch
-- [] Description of key features
+- [x] Description of key features
 - [] Description of how you will use each technology
-- [] One or more rough sketches of your application. Images must be embedded in this file using Markdown image references.
+- [x] One or more rough sketches of your application. Images must be embedded in this file using Markdown image references.
 
 ### Elevator pitch
 
@@ -29,15 +29,16 @@ Ever made a goal to become more financially literate and more aware of how the e
 
 ### Key features
 
-- Describe your key feature
-- Describe your key feature
-- Describe your key feature
+- Users can select which financial metrics they want to add to their dashboard
+- Users can see other users that have also created an account
+- Financial data will updated in real time every few minutes (for metrics that vary within one day)
+- User selections will be stored for next login
 
 ### Technologies
 
 I am going to use the required technologies in the following ways.
 
-- **HTML** - Description here
+- **HTML** - 
 - **CSS** - Description here
 - **React** - Description here
 - **Service** - Description here
