@@ -6,9 +6,6 @@ This application serves as a centralized dashboard for key financial metrics of 
 
 ## 🚀 Specification Deliverable
 
-> [!NOTE]
->  Fill in this sections as the submission artifact for this deliverable. You can refer to this [example](https://github.com/webprogramming260/startup-example/blob/main/README.md) for inspiration.
-
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
 - [x] Proper use of Markdown
@@ -31,7 +28,7 @@ Ever made a goal to become more financially literate and more aware of how the e
 
 - Users can select which financial metrics they want to add to their dashboard
 - Users can see other users that have also created an account
-- Financial data will updated in real time every few minutes (for metrics that vary within one day)
+- Financial data will update in real time every few minutes (for metrics that vary within one day)
 - User selections will be stored for next login
 
 ### Technologies
