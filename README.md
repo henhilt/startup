@@ -46,21 +46,21 @@ I am going to use the required technologies in the following ways.
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] **Server deployed and accessible with custom domain name** - [My server link](https://yourdomainnamehere.click).
+- [x] **Server deployed and accessible with custom domain name** - [My server link](https://yourdomainnamehere.click).
 
 ## 🚀 HTML deliverable
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] **HTML pages** - I did not complete this part of the deliverable.
-- [ ] **Proper HTML element usage** - I did not complete this part of the deliverable.
-- [ ] **Links** - I did not complete this part of the deliverable.
-- [ ] **Text** - I did not complete this part of the deliverable.
-- [ ] **3rd party API placeholder** - I did not complete this part of the deliverable.
-- [ ] **Images** - I did not complete this part of the deliverable.
-- [ ] **Login placeholder** - I did not complete this part of the deliverable.
-- [ ] **DB data placeholder** - I did not complete this part of the deliverable.
-- [ ] **WebSocket placeholder** - I did not complete this part of the deliverable.
+- [x] **HTML pages** - I added three pages: index.html, dashboard.html, and community.html
+- [x] **Proper HTML element usage** - Used various html tags such as header,footer, nav on each page, as well as body and main on each page. 
+- [x] **Links** - I put links to each of my pages in the header of each page
+- [x] **Text** - I added text to help welcome users and prompt them to login, to label the buttons they will be able to toggle on the dashboard page, and placeholder text for the database/Websocket connections on my community page
+- [x] **3rd party API placeholder** - I put a placeholder for my 3rd party API placeholder on my dashboard page (where i'll connect with charts from other sites), I put a picture there for now.
+- [x] **Images** - I added an image to my community page (line 26)
+- [x] **Login placeholder** - in my index.html, I have the placeholder for my login (lines 29-40)
+- [x] **DB data placeholder** - I put a database table placeholder for storing users and when they last logged on (community.html lines 39-60)
+- [x] **WebSocket placeholder** - I added placeholder text for where I will put notifications for what metrics other users are choosing to track (displaying in their dashboard page). This is in community.html lines 25-36.
 
 ## 🚀 CSS deliverable
 
