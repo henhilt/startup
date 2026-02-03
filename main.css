@@ -1,7 +1,10 @@
+@import url('https://fonts.googleapis.com');
+
 body {
   display: flex;
   flex-direction: column;
   min-width: 375px;
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
 header {
@@ -14,10 +17,12 @@ main {
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
 footer {
   flex: 0 30px;
+  border-top: solid rgb(22, 206, 52) medium;
 }
 
 menu {
