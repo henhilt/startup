@@ -5,38 +5,51 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Startup HTML</title>
         <link rel="icon" href="stockchart.jpg" />
+
+        <link rel="stylesheet" href="main.css" />
+        <link rel="stylesheet" href="community.css" />
+
+         <!-- Include bootstrap CSS framework -->
+        <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+        crossorigin="anonymous"
+        />
+
     </head>
-    <body>
-        <header>
-            <h1>Finance Dashboard</h1>
-            
-            <nav>
-                <menu>
-                <li><a href="index.html">Login</a></li>
-                <li><a href="dashboard.html">Dashboard</a></li>
-                <li><a href="community.html">Community</a></li>
+    <body class="bg-secondary">
+        <header class="container-fluid">
+            <nav class="navbar fixed-top navbar-dark bg-dark text-light">
+                <a class="navbar-brand" href="#">Finance Dashboard </a>
+                <menu class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Login</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="dashboard.html">Dashboard</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="community.html">Community</a></li>
                 </menu>
             </nav>
-            <!-- this next line adds line separator at bottom of header -->
-            <hr />
         </header>
 
-        <main>
+        <main class="container-fluid bg-secondary text-left">
            <h2>Community</h2>
+
                 <div id="picture" class="picture-box"><img width="400px" height="200px" src="wallstreet.jpg" alt="random" /></div>
 
                 <div class="users">
-                Watchlist:
+                Community Watchlist:
                 <span class="user-name">User1</span>
                 </div>
-                <ul class="notification">
-                    <li class="user-name">Joe started tracking CPI</li>
-                    <li class="user-name">Guy started tracking AAPL</li>
-                    <li class="user-name">William started tracking FEDFUNDS</li>
+                <div id="community-updates">
+                    <div class="event">Joe started tracking CPI</li>
+                    <div class="event">Guy started tracking AAPL</li>
+                    <div class="event">William started tracking FEDFUNDS</li>
                 </ul>
                 <hr />
 
-                <table>
+                <table class="table table-dark" style="max-width: 800px;">
                     <thead>
                         <tr>
                             <th>Name</th>
@@ -45,7 +58,7 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td>William Pedersen</td>
+                            <td>William Petersen</td>
                             <td>Jan 19, 2026</td>
                         </tr>
                         <tr>
@@ -60,12 +73,11 @@
                 </table>
         </main>
 
-        <footer>
-            <br>
-            <hr />
+        <footer class="bg-dark text-white-50">
+            <div class="container-fluid">
             <span class="text-reset">Author Name(s): HSH</span>
-            <br>
-            <a  href="https://github.com/henhilt/startup/">GitHub</a>
+            <a class="text-reset" href="https://github.com/henhilt/startup/">GitHub</a>
+            </div>
         </footer>
     </body>
 </html>
