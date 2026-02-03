@@ -1,6 +1,7 @@
 body {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  flex-direction: row;
   min-width: 375px;
+  
 }
 
