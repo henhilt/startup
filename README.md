@@ -66,12 +66,12 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] **Header, footer, and main content body** - I did not complete this part of the deliverable.
-- [ ] **Navigation elements** - I did not complete this part of the deliverable.
+- [x] **Header, footer, and main content body** - I customized my header, footer, and main content in order to fit my design. I didn't use much beyond the main.css since I want a consistent look for each page and want it to be very simple and plain to make sure actual financial users would be undistracted. However, I added some styles for different types of event notifications on my 'Community' page.
+- [x] **Navigation elements** - I customized my nav bar and made it consistent across all of my pages. I made it active to show bolded text for the page you're currently viewing
 - [x] **Responsive to window resizing** - I used flex in my display in order to handle window resizing
-- [ ] **Application elements** - I did not complete this part of the deliverable.
-- [ ] **Application text content** - I did not complete this part of the deliverable.
-- [ ] **Application images** - I did not complete this part of the deliverable.
+- [x] **Application elements** - I used various elements throughout to style my webpage.
+- [x] **Application text content** - I added a custom font for my main and body text. I kept most of the same text elements but edited some of it to make more sense to the user.
+- [x] **Application images** - I maintained the same images as previously
 
 ## 🚀 React part 1: Routing deliverable
 
