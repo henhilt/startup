@@ -34,14 +34,46 @@ menu {
 }
 
 .navbar-brand {
-  padding-left: 0.3em;
+  padding-left: 35px;
+  margin-left: 1.5vw;
+  display: inline-block;
+  position: relative;
   border-bottom: solid rgb(22, 206, 52) thick;
   font-size: 35px;
+}
+
+.navbar-brand::before {
+  content: "";
+  position: absolute;
+  left: 0px;
+
+  top: 30%;
+
+  width: 30px;
+  height: 30px;
+  
+  background-image: url("/stockchart.jpg");
+  background-size:cover;
+  background-repeat: no-repeat;
+  background-position: center;
+ 
+
 }
 
 menu .nav-item {
   padding: 0 0.3em;
   font-size: 20px;
+}
+
+menu .nav-link {
+  padding: 0 0.3em;
+  display: inline-block;
+  border-bottom: solid transparent;
+  font-size: 20px;
+}
+
+menu .nav-link:hover {
+  border-bottom: solid rgb(22, 206, 52) thin;
 }
 
 footer a {
