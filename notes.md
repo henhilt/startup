@@ -36,3 +36,5 @@ When editing a vi you have to hit i key to enter insert mode, then you hit esc t
 
 ## React Part 1: Routing
 
+deployment command (update to have startup instead of simon)
+ ./deployReact.sh -k "C:\Users\hilto\Documents\BYU\Winter2026\Key260\production.pem" -h findash260.click -s simon
