@@ -5,7 +5,7 @@ export function Login() {
       <main className="container-fluid bg-secondary text-center">
           <h3>Welcome to your personalized finance dashboard. </h3>
           <h5> Please login below. </h5>
-          <form method="get" action="dashboard.html" className="mx-auto" >
+          <form method="get" action="dashboard" className="mx-auto" >
               <div className="input-group mb-3">
                   <span className="input-group-text">Username:</span>
                   <input className="form-control" type="text" placeholder="user"/>
