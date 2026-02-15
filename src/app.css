@@ -36,10 +36,12 @@ menu {
 .navbar-brand {
   padding-left: 0.3em;
   border-bottom: solid rgb(22, 206, 52) thick;
+  font-size: 35px;
 }
 
 menu .nav-item {
   padding: 0 0.3em;
+  font-size: 20px;
 }
 
 footer a {
