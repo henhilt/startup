@@ -11,7 +11,7 @@ import { AuthState } from './login/authState';
 
 
 
-export default function App() { 
+function App() { 
     const [userName, setUserName] = React.useState(localStorage.getItem('userName') || '');
     const currentAuthState = userName ? AuthState.Authenticated : AuthState.Unauthenticated;
     const [authState, setAuthState] = React.useState(currentAuthState);
@@ -62,7 +62,7 @@ export default function App() {
                     exact
                 />
                 <Route path='/community' element={<Community />} />
-                <Route path='/dashboard' element={<Dashboard />} />
+                <Route path='/dashboard' element={<Dashboard userName={userName}/>} />
                 <Route path='*' element={<NotFound />} />
             </Routes>
 
@@ -81,3 +81,5 @@ export default function App() {
 function NotFound() {
   return <main className="container-fluid bg-secondary text-center">404: Return to sender. Address unknown.</main>;
 }
+
+export default App;
