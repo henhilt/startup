@@ -114,7 +114,7 @@ function saveCommunityWatchlist(userName, assetName) {
     const newUpdate = {
         user: userName,
         action: ' started tracking ',
-        asset: assetName
+        asset: assetName,
     };
 
     const savedUpdates = localStorage.getItem('communityWatchlist');
