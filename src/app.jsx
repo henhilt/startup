@@ -6,9 +6,17 @@ import { BrowserRouter, NavLink, Route, Routes } from 'react-router-dom';
 import { Login } from './login/login';
 import { Dashboard } from './dashboard/dashboard';
 import { Community } from './community/community';
+import { AuthState } from './login/authState';
+
+
+
 
 export default function App() { 
-  return (
+    const [userName, setUserName] = React.useState(localStorage.getItem('userName') || '');
+    const currentAuthState = userName ? AuthState.Authenticated : AuthState.Unauthenticated;
+    const [authState, setAuthState] = React.useState(currentAuthState);
+    
+    return (
     <BrowserRouter>
         <div className="body bg-dark text-light">
             <header className="container-fluid">
@@ -21,14 +29,20 @@ export default function App() {
                             <NavLink className="nav-link active" to='/'>
                                 Login
                             </NavLink></li>
-                        <li className="nav-item">
+                        {authState === AuthState.Authenticated && (
+                            <li className="nav-item">
                             <NavLink className="nav-link" to='dashboard'>
                                 Dashboard
-                            </NavLink></li>
-                        <li className="nav-item">
+                            </NavLink>
+                            </li>
+                        )}
+                        {authState === AuthState.Authenticated && (
+                            <li className="nav-item">
                             <NavLink className="nav-link" to='community'>
                                 Community
-                            </NavLink></li>
+                            </NavLink>
+                            </li>
+                        )}
                     </menu>
                 </nav>
             </header>
