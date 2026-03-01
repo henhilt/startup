@@ -41,49 +41,49 @@ export function Dashboard({userName}) {
     <main className="container-fluid bg-secondary text-left">
       <h2>Your Dashboard</h2>
 
-      {localMessage && (
-        <div className='alert alert-success' role='alert'>
-            {localMessage}
-        </div>
-      )}
+        
 
-        <div className="row align-items-center">
-            <div className="col-md-6">
-              <h4>Select Your Watchlist</h4>
-                  <form>
-                      <div className="form-check">
-                          <input className="form-check-input" type="checkbox" id="Consumer Price Index" name="CPI" onChange={onCheckboxChange} value="yes"></input>
-                          <label className="form-check-label" for="Consumer Price Index">Display Consumer Price Index data</label>
-                      </div>
-                      <div className="form-check">
-                          <input className="form-check-input" type="checkbox" id="Federal Funds Rate" name="FEDFUNDS" onChange={onCheckboxChange} value="yes"></input>
-                          <label className="form-check-label" for="Federal Funds Rate">Display Federal Funds Rate data</label>
-                      </div>
-                      <div className="form-check">
-                          <input className="form-check-input" type="checkbox" id="Apple" name="AAPL" onChange={onCheckboxChange} value="yes"></input>
-                          <label className="form-check-label" for="Apple">Display Apple data</label>
-                      </div>
-                  </form> 
+        <div className="row align-items-start">
+            <div className="col-md-4 text-start">
+                <h4>Select Your Watchlist</h4>
+                <form>
+                    <div className="form-check">
+                        <input className="form-check-input" type="checkbox" id="Consumer Price Index" name="CPI" onChange={onCheckboxChange} value="yes"></input>
+                        <label className="form-check-label" for="Consumer Price Index">Display Consumer Price Index data</label>
+                    </div>
+                    <div className="form-check">
+                        <input className="form-check-input" type="checkbox" id="Federal Funds Rate" name="FEDFUNDS" onChange={onCheckboxChange} value="yes"></input>
+                        <label className="form-check-label" for="Federal Funds Rate">Display Federal Funds Rate data</label>
+                    </div>
+                    <div className="form-check">
+                        <input className="form-check-input" type="checkbox" id="Apple" name="AAPL" onChange={onCheckboxChange} value="yes"></input>
+                        <label className="form-check-label" for="Apple">Display Apple data</label>
+                    </div>
+                </form> 
+                <div style={{minHeight: '90px'}}>
+                    {localMessage && (
+                    <div className='alert alert-success' role='alert'>
+                        {localMessage}
+                    </div>
+                    )}
+                </div>
             </div>
-            <div className="col-md-6">
-              
-                <div id="picture" className="picture-box">
+            <div className="col-md-8 text-end">
+                <div id='chartArea' className="text-end" style={{minHeight: '100vh', minWidth: '400px'}}>
                     {activeCharts['CPI'] && (
                     <div className='mb-4'>
                         <h5>CPI</h5>
                         <img width="400px" height="200px" src="CPIfred.png" alt="random" />
                     </div>
                     )}
-                </div>
-                <div id="picture" className="picture-box">
+                
                     {activeCharts['FEDFUNDS'] && (
                     <div className='mb-4'>
                         <h5>FEDFUNDS</h5>
                         <img width="400px" height="200px" src="FEDFUNDSfred.png" alt="random" />
                     </div>
                     )}
-                </div>
-                <div id="picture" className="picture-box">
+
                     {activeCharts['AAPL'] && (
                     <div className='mb-4'>
                         <h5>AAPL</h5>
