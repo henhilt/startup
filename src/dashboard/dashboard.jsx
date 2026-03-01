@@ -5,11 +5,20 @@ export function Dashboard({userName}) {
 
     const [localMessage, setLocalMessage] = useState('');
   
-    
+    const [activeCharts, setActiveCharts] = useState({
+        'CPI': false,
+        'FEDFUNDS': false,
+        'AAPL': false
+    });
 
     function onCheckboxChange(event) {
         const assetName = event.target.name;
         const isChecked = event.target.checked;
+
+        setActiveCharts(prev => ({
+            ...prev,
+            [assetName]: isChecked
+        }));
 
         if (isChecked) {
             DashNotifier.broadcastEvent(userName, DashEvent.Watchlist, { 
@@ -38,8 +47,8 @@ export function Dashboard({userName}) {
         </div>
       )}
 
-      <div className="row align-items-center">
-          <div className="col-md-6">
+        <div className="row align-items-center">
+            <div className="col-md-6">
               <h4>Select Your Watchlist</h4>
                   <form>
                       <div className="form-check">
@@ -55,12 +64,35 @@ export function Dashboard({userName}) {
                           <label className="form-check-label" for="Apple">Display Apple data</label>
                       </div>
                   </form> 
-          </div>
-          <div className="col-md-6"> 
-              <div id="picture" className="picture-box">
-                  <img width="400px" height="200px" src="CPIfred.png" alt="random" /></div>
-          </div> 
-      </div>
-  </main>
+            </div>
+            <div className="col-md-6">
+              
+                <div id="picture" className="picture-box">
+                    {activeCharts['CPI'] && (
+                    <div className='mb-4'>
+                        <h5>CPI</h5>
+                        <img width="400px" height="200px" src="CPIfred.png" alt="random" />
+                    </div>
+                    )}
+                </div>
+                <div id="picture" className="picture-box">
+                    {activeCharts['FEDFUNDS'] && (
+                    <div className='mb-4'>
+                        <h5>FEDFUNDS</h5>
+                        <img width="400px" height="200px" src="FEDFUNDSfred.png" alt="random" />
+                    </div>
+                    )}
+                </div>
+                <div id="picture" className="picture-box">
+                    {activeCharts['AAPL'] && (
+                    <div className='mb-4'>
+                        <h5>AAPL</h5>
+                        <img width="400px" height="200px" src="AAPLchart.png" alt="random" />
+                    </div>
+                    )}
+                </div> 
+            </div>
+        </div>
+    </main>
   );
 }
