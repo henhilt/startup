@@ -32,7 +32,7 @@ export function Unauthenticated(props) {
                 <Button variant='primary' onClick={() => loginUser()} disabled={!userName || !password}>
                     Login
                 </Button>
-                <Button variant='primary' onClick={() => loginUser()} disabled={!userName || !password}>
+                <Button variant='primary' onClick={() => createUser()} disabled={!userName || !password}>
                     New User
                 </Button>
             </div>

@@ -4,11 +4,17 @@ import './community.css'
 export function Community() {
 
     const [communityLogins, setCommunityLogins] = React.useState([]);
+    const [updates, setUpdates] = React.useState([]);
 
     React.useEffect(() => {
         const loginsText = localStorage.getItem('communityLogins');
         if (loginsText) {
             setCommunityLogins(JSON.parse(loginsText));
+        }
+
+        const updatesText = localStorage.getItem('communityWatchlist');
+        if (updatesText) {
+            setUpdates(JSON.parse(updatesText));
         }
     }, []);
 
@@ -39,13 +45,23 @@ export function Community() {
             <div id="picture" className="picture-box"><img width="400px" height="200px" src="wallstreet.jpg" alt="random" /></div>
 
             <div className="users">
-            Community Watchlist:
-            <span className="user-name">User1</span>
+                Community Watchlist Updates:
             </div>
             <div id="community-updates">
-                <div className="user-event">Joe started tracking CPI</div>
-                <div className="system-event">Guy logged on</div>
-                <div className="user-event">William started tracking FEDFUNDS</div>
+                {updates.length > 0 ? (
+                    updates.map((update, i) => (
+                        update.user && (
+                            <div key={i} className='user-event'>
+                                <span className='text-info-bullet'>• </span>
+                                <span className='text-info-name' style={{color: 'rgb(22, 206, 52)', fontStyle: 'italic'}}>{update.user}</span>
+                                <span className='text-info-action'>{update.action}</span>
+                                <span className='text-info-asset' style={{color: 'rgb(22, 206, 52)', fontWeight: 'bold'}}>{update.asset}</span>
+                            </div>
+                        )
+                    ))
+                ) : (
+                    <div className='text-muted-italic'>No updates recorded</div>
+                )}
             </div>
             <hr />
 

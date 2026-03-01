@@ -109,12 +109,17 @@ export function Dashboard({userName}) {
   );
 }
 
-function saveCommunityWatchlist(username, assetName) {
-    const actionText = `${username} started tracking ${assetName}`;
+function saveCommunityWatchlist(userName, assetName) {
+    const newUpdate = {
+        user: userName,
+        action: ' started tracking ',
+        asset: assetName
+    };
+
     const savedUpdates = localStorage.getItem('communityWatchlist');
     let updates = savedUpdates ? JSON.parse(savedUpdates) : [];
 
-    updates.unshift(actionText);
+    updates.unshift(newUpdate);
     if (updates.length > 5) updates.length = 5;
 
     localStorage.setItem('communityWatchlist', JSON.stringify(updates));
