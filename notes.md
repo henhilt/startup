@@ -38,3 +38,13 @@ When editing a vi you have to hit i key to enter insert mode, then you hit esc t
 
 deployment command (update to have startup instead of simon)
  ./deployReact.sh -k "C:\Users\hilto\Documents\BYU\Winter2026\Key260\production.pem" -h findash260.click -s simon
+
+
+## React Part 2:
+make sure to clear user data upon logging out
+
+but make sure you save and then load data for old users
+
+can simulate websocket with setInterval
+
+divs around my objects gives me more control over relative spacing (especially needed on my login and my dashboard)
