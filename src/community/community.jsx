@@ -16,6 +16,25 @@ export function Community() {
         if (updatesText) {
             setUpdates(JSON.parse(updatesText));
         }
+
+        const interval = setInterval(() => {
+
+            const ghostNames = ['Joey Pants', 'hotel', 'golf', 'delta'];
+            const ghostAssets = ['AAPL', 'CPI', 'FEDFUNDS'];
+
+            const randomName = ghostNames[Math.floor(Math.random() * ghostNames.length)];
+            const randomAsset = ghostAssets[Math.floor(Math.random() * ghostAssets.length)];
+
+            const ghostUpdate = {
+                user: randomName,
+                action: ' started tracking ',
+                asset: randomAsset,
+                timestamp: new Date().getTime()
+            };
+            setUpdates(prev => [ghostUpdate, ...prev].slice(0,5));
+
+        }, 7000)
+        return () => clearInterval(interval);
     }, []);
 
     const loginRows = [];
