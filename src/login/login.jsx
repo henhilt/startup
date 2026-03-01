@@ -7,7 +7,7 @@ import { Authenticated } from './authenticated';
 export function Login({ userName, authState, onAuthChange }) {
   return (
       <main className="container-fluid bg-secondary text-center">
-            {authState !== AuthState.Unknown && <h3>Welcome to your personalized finance dashboard. </h3>}
+            {authState !== AuthState.Unknown && <h1>Welcome to your personalized finance dashboard. </h1>}
             {authState === AuthState.Authenticated && (
                 <Authenticated userName={userName} onLogout={() => onAuthChange(userName, AuthState.Unauthenticated)} />
             )}
@@ -19,7 +19,7 @@ export function Login({ userName, authState, onAuthChange }) {
                     }}
                 />
             )}
-            <h5> Please login below. </h5>
+            
 
       </main>
   );
