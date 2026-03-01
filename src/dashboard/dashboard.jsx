@@ -18,8 +18,7 @@ export function Dashboard({userName}) {
     });
 
     useEffect(() => {
-        localStorage.setItem('userWatchlist', JSON.stringify(activeCharts));
-    }, [activeCharts]);
+        localStorage.setItem('userWatchlist', JSON.stringify(activeCharts));}, [activeCharts]);
 
     function onCheckboxChange(event) {
         const assetName = event.target.name;
@@ -49,6 +48,7 @@ export function Dashboard({userName}) {
   return (
 
     <main className="container-fluid bg-secondary text-left">
+      <br/>
       <h2>Your Dashboard</h2>
 
         

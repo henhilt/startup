@@ -10,6 +10,9 @@ export function Authenticated(props) {
 
   function logout() {
     localStorage.removeItem('userName');
+
+    {/*remove watchlist storage as well*/}
+
     props.onLogout();
   }
 
