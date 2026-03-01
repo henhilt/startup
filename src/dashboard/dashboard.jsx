@@ -82,7 +82,7 @@ export function Dashboard({userName}) {
                 </div>
             </div>
             <div className="col-md-8 text-end">
-                <div id='chartArea' className="text-end" style={{minHeight: '100vh', minWidth: '400px'}}>
+                <div id='chartArea' className="text-end" style={{minHeight: '80vh', minWidth: '400px'}}>
                     {activeCharts['CPI'] && (
                     <div className='mb-4'>
                         <h5>CPI</h5>
