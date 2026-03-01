@@ -3,9 +3,9 @@ import { DashNotifier, DashEvent } from './dashNotifier';
 
 export function Dashboard({userName}) {
 
-    const [localMessage, setLocalMessage] = useState('');
+    const [localMessage, setLocalMessage] = React.useState('');
   
-    const [activeCharts, setActiveCharts] = useState(() => {
+    const [activeCharts, setActiveCharts] = React.useState(() => {
 
         const saved = localStorage.getItem('userWatchlist');
         const initialValue = JSON.parse(saved);
@@ -17,7 +17,7 @@ export function Dashboard({userName}) {
         };
     });
 
-    useEffect(() => {
+    React.useEffect(() => {
         localStorage.setItem('userWatchlist', JSON.stringify(activeCharts));}, [activeCharts]);
 
     function onCheckboxChange(event) {
