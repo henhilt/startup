@@ -28,7 +28,8 @@ function App() {
                         <li className="nav-item">
                             <NavLink className="nav-link active" to='/'>
                                 Login
-                            </NavLink></li>
+                            </NavLink>
+                        </li>
                         {authState === AuthState.Authenticated && (
                             <li className="nav-item">
                             <NavLink className="nav-link" to='dashboard'>
@@ -62,7 +63,7 @@ function App() {
                     exact
                 />
                 <Route path='/community' element={<Community />} />
-                <Route path='/dashboard' element={<Dashboard userName={userName}/>} />
+                <Route path='/dashboard' element={<Dashboard userName={userName} key={userName}/>} />
                 <Route path='*' element={<NotFound />} />
             </Routes>
 

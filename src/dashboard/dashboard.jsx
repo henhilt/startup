@@ -6,8 +6,8 @@ export function Dashboard({userName}) {
     const [localMessage, setLocalMessage] = React.useState('');
   
     const [activeCharts, setActiveCharts] = React.useState(() => {
-
-        const saved = localStorage.getItem('userWatchlist');
+        const userKey = `watchlist_${userName}`;
+        const saved = localStorage.getItem(userKey);
         const initialValue = JSON.parse(saved);
 
         return initialValue || {
@@ -18,7 +18,8 @@ export function Dashboard({userName}) {
     });
 
     React.useEffect(() => {
-        localStorage.setItem('userWatchlist', JSON.stringify(activeCharts));}, [activeCharts]);
+        const userKey = `watchlist_${userName}`;
+        localStorage.setItem(userKey, JSON.stringify(activeCharts));}, [activeCharts, userName]);
 
     function onCheckboxChange(event) {
         const assetName = event.target.name;
