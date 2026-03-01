@@ -16,13 +16,20 @@ export function Authenticated(props) {
 
   return (
     <div>
-      <div className='playerName'>{props.userName}</div>
-      <Button variant='primary' onClick={() => navigate('/dashboard')}>
-        Dashboard
-      </Button>
-      <Button variant='secondary' onClick={() => logout()}>
-        Logout
-      </Button>
+        <div className='text-center'>
+            <p> WELCOME BACK</p>
+            <h2 className='display-6'>
+                {props.userName}
+            </h2>
+        </div>
+        <div className='d-flex justify-content-center gap-3 w-100 mt-2'>
+        <Button variant='primary' onClick={() => navigate('/dashboard')}>
+            Dashboard
+        </Button>
+        <Button variant='secondary' onClick={() => logout()}>
+            Logout
+        </Button>
+        </div>
     </div>
   );
 }

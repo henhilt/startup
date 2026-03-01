@@ -32,21 +32,30 @@ export function Login({ userName, authState, onAuthChange }) {
   
     return (
       <main className="container-fluid bg-secondary text-center">
-            {authState !== AuthState.Unknown && <h1>Welcome to your personalized finance dashboard. </h1>}
-            {authState === AuthState.Authenticated && (
-                <Authenticated userName={userName} onLogout={() => onAuthChange(userName, AuthState.Unauthenticated)} />
-            )}
-            {authState === AuthState.Unauthenticated && (
-                <Unauthenticated
-                    userName={userName}
-                    onLogin={(loginUserName) => {
-                        updateLastLogin(loginUserName);
-                        onAuthChange(loginUserName, AuthState.Authenticated);
-                    }}
-                />
-            )}
-            
+           
+            <div className="d-flex flex-column align-items-center" style={{ gap: '1.5rem' }}>
+                <div className='text-center mb-5'>
+                    {authState !== AuthState.Unknown &&
+                        <h1>Welcome to your personalized finance dashboard.</h1>
+                    }
+                </div>
+                
+                <div className="card bg-dark text-white p-4 shadow-lg border-0" style={{ minWidth: '350px', borderRadius: '15px' }}>
+                    {authState === AuthState.Authenticated && (
+                        <Authenticated userName={userName} onLogout={() => onAuthChange(userName, AuthState.Unauthenticated)} />
+                    )}
 
+                    {authState === AuthState.Unauthenticated && (
+                        <Unauthenticated
+                            userName={userName}
+                            onLogin={(loginUserName) => {
+                                updateLastLogin(loginUserName);
+                                onAuthChange(loginUserName, AuthState.Authenticated);
+                            }}
+                        />
+                    )}
+                </div>
+            </div>
       </main>
   );
 }

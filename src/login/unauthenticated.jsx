@@ -29,12 +29,14 @@ export function Unauthenticated(props) {
                     <span className="input-group-text">Password:</span>
                     <input className="form-control" type="password"  onChange={(e) => setPassword(e.target.value)} placeholder="*****"/>
                 </div>
-                <Button variant='primary' onClick={() => loginUser()} disabled={!userName || !password}>
-                    Login
-                </Button>
-                <Button variant='primary' onClick={() => createUser()} disabled={!userName || !password}>
-                    New User
-                </Button>
+                <div className='d-flex justify-content-center gap-3 w-100 mt-2'>
+                    <Button variant='primary' onClick={() => loginUser()} disabled={!userName || !password}>
+                        Login
+                    </Button>
+                    <Button variant='secondary' onClick={() => createUser()} disabled={!userName || !password}>
+                        New User
+                    </Button>
+                </div>
             </div>
                     
             <MessageDialog message={displayError} onHide={() => setDisplayError(null)} />
