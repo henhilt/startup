@@ -1,15 +1,25 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { DashNotifier, DashEvent } from './dashNotifier';
 
 export function Dashboard({userName}) {
 
     const [localMessage, setLocalMessage] = useState('');
   
-    const [activeCharts, setActiveCharts] = useState({
-        'CPI': false,
-        'FEDFUNDS': false,
-        'AAPL': false
+    const [activeCharts, setActiveCharts] = useState(() => {
+
+        const saved = localStorage.getItem('userWatchlist');
+        const initialValue = JSON.parse(saved);
+
+        return initialValue || {
+            'CPI': false,
+            'FEDFUNDS': false,
+            'AAPL': false
+        };
     });
+
+    useEffect(() => {
+        localStorage.setItem('userWatchlist', JSON.stringify(activeCharts));
+    }, [activeCharts]);
 
     function onCheckboxChange(event) {
         const assetName = event.target.name;
@@ -48,15 +58,15 @@ export function Dashboard({userName}) {
                 <h4>Select Your Watchlist</h4>
                 <form>
                     <div className="form-check">
-                        <input className="form-check-input" type="checkbox" id="Consumer Price Index" name="CPI" onChange={onCheckboxChange} value="yes"></input>
+                        <input className="form-check-input" type="checkbox" id="Consumer Price Index" name="CPI" onChange={onCheckboxChange} checked={activeCharts['CPI']}></input>
                         <label className="form-check-label" for="Consumer Price Index">Display Consumer Price Index data</label>
                     </div>
                     <div className="form-check">
-                        <input className="form-check-input" type="checkbox" id="Federal Funds Rate" name="FEDFUNDS" onChange={onCheckboxChange} value="yes"></input>
+                        <input className="form-check-input" type="checkbox" id="Federal Funds Rate" name="FEDFUNDS" onChange={onCheckboxChange} checked={activeCharts['FEDFUNDS']}></input>
                         <label className="form-check-label" for="Federal Funds Rate">Display Federal Funds Rate data</label>
                     </div>
                     <div className="form-check">
-                        <input className="form-check-input" type="checkbox" id="Apple" name="AAPL" onChange={onCheckboxChange} value="yes"></input>
+                        <input className="form-check-input" type="checkbox" id="Apple" name="AAPL" onChange={onCheckboxChange} checked={activeCharts['AAPL']}></input>
                         <label className="form-check-label" for="Apple">Display Apple data</label>
                     </div>
                 </form> 
