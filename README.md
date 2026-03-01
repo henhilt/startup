@@ -85,8 +85,8 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] **All functionality implemented or mocked out** - I did not complete this part of the deliverable.
-- [ ] **Hooks** - I did not complete this part of the deliverable.
+- [x] **All functionality implemented or mocked out** - I fully implemented everything and mocked out WebSocket data (in my Community Watchlist is the best example)
+- [x] **Hooks** - I used useState and useEffect throughout most of my jsx files. In my Dashboard.jsx, I used them to store the checkbox/watchlist selections for users and to sync the watchlist in localstorage. In my Community.jsx, I used useEffect to trigger my setInterval mock WebSocket.
 
 ## 🚀 Service deliverable
 
