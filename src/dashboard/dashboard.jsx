@@ -35,13 +35,15 @@ export function Dashboard({userName}) {
                 date: new Date().toLocaleTimeString() 
             });
 
+
+            saveCommunityWatchlist(userName, assetName)
+
             setLocalMessage(`You added ${assetName} to your watchlist`);
             setTimeout(() => {
                 setLocalMessage('');
             }, 3000);
 
             console.log(`${userName} added ${assetName}`);
-        
         }
     }
 
@@ -105,4 +107,15 @@ export function Dashboard({userName}) {
         </div>
     </main>
   );
+}
+
+function saveCommunityWatchlist(username, assetName) {
+    const actionText = `${username} started tracking ${assetName}`;
+    const savedUpdates = localStorage.getItem('communityWatchlist');
+    let updates = savedUpdates ? JSON.parse(savedUpdates) : [];
+
+    updates.unshift(actionText);
+    if (updates.length > 5) updates.length = 5;
+
+    localStorage.setItem('communityWatchlist', JSON.stringify(updates));
 }
