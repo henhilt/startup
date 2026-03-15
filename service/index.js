@@ -92,8 +92,8 @@ apiRouter.get('/community', verifyAuth, (_req, res) => {
 apiRouter.post('/update-watchlist', verifyAuth, (req, res) => {
   console.log("In update watchlist");
   const userSelectionUpdate = req.body;
-  console.log(`${userSelectionUpdate.user} started tracking ${userSelectionUpdate.ticker}`);
-  res.status(200).send({ msg: `${ticker} added to watchlist` })
+  console.log(`${userSelectionUpdate.user} started tracking ${userSelectionUpdate.asset}`);
+  res.status(200).send({ msg: `${userSelectionUpdate.asset} added to watchlist` })
 });
 
 // Default error handler
