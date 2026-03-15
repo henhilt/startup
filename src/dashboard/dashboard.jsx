@@ -86,30 +86,30 @@ export function Dashboard({userName}) {
     }
 
 return (
-    <main className="dashboard-page container-fluid text-left">
-        <br/>
-        <h2>Your Dashboard</h2>
-        
-        <div className="d-flex flex-wrap gap-2 mt-2 mb-3">
-            {activeCharts['MANU'] && (
-                <span className="badge bg-dark">
-                    Live MANU Price: <span style={{ color: '#22ce34' }}>{manuPrice}</span>
-                </span>
-            )}
-            {activeCharts['CPI'] && (
-                <span className="badge bg-dark">
-                    Current CPI Level: <span style={{ color: '#22ce34' }}>{CPILevel}</span>
-                </span>
-            )}
-            {activeCharts['FEDFUNDS'] && (
-                <span className="badge bg-dark">
-                    Current FEDFUNDS Rate: <span style={{ color: '#22ce34' }}>{FEDFUNDS}</span>
-                </span>
-            )}
-        </div>
+    <main className="dashboard-page" style={{ overflowX: 'auto' }}>
+        <div style={{ minWidth: '1300px', position: 'relative' }}>
+            <br/>
+            <h2>Your Dashboard</h2>
+            
+            <div className="d-flex flex-wrap gap-2 mt-2 mb-3">
+                {activeCharts['MANU'] && (
+                    <span className="badge bg-dark">
+                        Live MANU Price: <span style={{ color: '#22ce34' }}>{manuPrice}</span>
+                    </span>
+                )}
+                {activeCharts['CPI'] && (
+                    <span className="badge bg-dark">
+                        Current CPI Level: <span style={{ color: '#22ce34' }}>{CPILevel}</span>
+                    </span>
+                )}
+                {activeCharts['FEDFUNDS'] && (
+                    <span className="badge bg-dark">
+                        Current FEDFUNDS Rate: <span style={{ color: '#22ce34' }}>{FEDFUNDS}</span>
+                    </span>
+                )}
+            </div>
 
-        <div style={{ display: 'flex', width: '100%', minWidth: '1300px' }}>            
-            <div style={{ width: '300px', flexShrink: 0 }}>
+            <div style={{ position: 'absolute', width: '280px', left: 0 }}>
                 <h4>Select Your Watchlist</h4>
                 <form>
                     <div className="form-check">
@@ -132,51 +132,50 @@ return (
                 </div>
             </div>
 
-                <div style={{ flexGrow: 1, minWidth: '980px' }}>                <div id='chartArea' style={{ display: 'inline-block', width: '980px' }}>
-                    <div id='chartArea' style={{ width: '980px' }}>
-                        {activeCharts['CPI'] && (
-                            <div className='mb-4'>
-                                <h5>CPI</h5>
-                                <div style={{ width: '100%', maxWidth: '980px', marginLeft: 'auto', overflow: 'hidden' }}>
-                                    <div className='chart-box'>
-                                        <iframe
-                                            src="https://fred.stlouisfed.org/graph/graph-landing.php?g=1Tx1I&width=980&height=475"
-                                            title="CPI Graph" 
-                                            style={{ minWidth: '980px' }}
-                                        ></iframe>
-                                    </div>
+            <div style={{ paddingLeft: '310px', width: '100%' }}>
+                <div style={{ width: '980px' }}>
+                    {activeCharts['CPI'] && (
+                        <div className='mb-4'>
+                            <h5>CPI</h5>
+                            <div style={{ width: '100%', maxWidth: '980px', marginLeft: 'auto', overflow: 'hidden' }}>
+                                <div className='chart-box'>
+                                    <iframe
+                                        src="https://fred.stlouisfed.org/graph/graph-landing.php?g=1Tx1I&width=980&height=475"
+                                        title="CPI Graph" 
+                                        style={{ minWidth: '980px' }}
+                                    ></iframe>
                                 </div>
                             </div>
-                        )}
-                    
-                        {activeCharts['FEDFUNDS'] && (
-                            <div className='mb-4'>
-                                <h5>FEDFUNDS</h5>
-                                <div style={{ width: '100%', maxWidth: '980px', marginLeft: 'auto', overflow: 'hidden' }}>
-                                    <div className='chart-box' style={{ width: '980px', minWidth: '980px' }}>
-                                        <iframe 
-                                            src="https://fred.stlouisfed.org/graph/graph-landing.php?g=1T5b1&width=980&height=475" 
-                                            title="FEDFUNDS Graph"
-                                            style={{ 
-                                                width: '980px', 
-                                                minWidth: '980px',
-                                                height: '475px', 
-                                                border: 'none' 
-                                            }}
-                                        ></iframe>
-                                    </div>
+                        </div>
+                    )}
+                
+                    {activeCharts['FEDFUNDS'] && (
+                        <div className='mb-4'>
+                            <h5>FEDFUNDS</h5>
+                            <div style={{ width: '100%', maxWidth: '980px', marginLeft: 'auto', overflow: 'hidden' }}>
+                                <div className='chart-box' style={{ width: '980px', minWidth: '980px' }}>
+                                    <iframe 
+                                        src="https://fred.stlouisfed.org/graph/graph-landing.php?g=1T5b1&width=980&height=475" 
+                                        title="FEDFUNDS Graph"
+                                        style={{ 
+                                            width: '980px', 
+                                            minWidth: '980px',
+                                            height: '475px', 
+                                            border: 'none' 
+                                        }}
+                                    ></iframe>
                                 </div>
                             </div>
-                        )}
-                        {activeCharts['MANU'] && (
-                            <div className='mb-4'>
-                                <h5>MANU</h5>
-                                <div style={{ width: '980px', marginLeft: 'auto', overflow: 'hidden' }}>
-                                    <TradingViewWidget />   
-                                </div>
+                        </div>
+                    )}
+                    {activeCharts['MANU'] && (
+                        <div className='mb-4'>
+                            <h5>MANU</h5>
+                            <div style={{ width: '980px', marginLeft: 'auto', overflow: 'hidden' }}>
+                                <TradingViewWidget />   
                             </div>
-                        )}
-                    </div>
+                        </div>
+                    )}
                 </div>
             </div> 
         </div> 
