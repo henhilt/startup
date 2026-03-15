@@ -1,4 +1,5 @@
 import React from 'react';
+import {Button} from 'react-bootstrap'
 import './community.css'
 
 export function Community() {
@@ -36,6 +37,18 @@ export function Community() {
         }, 7000)
         return () => clearInterval(interval);
     }, []);
+
+
+    function handleClick() {
+        console.log('Button clicked');
+        fetch('/api/test')
+            .then((response) => response.json())
+            .then((testing) => {
+            console.log(testing);
+            console.log(testing.test);
+            setTestStuff(testing.test);
+            });
+    }
 
     const loginRows = [];
     if (communityLogins.length) {
@@ -83,6 +96,8 @@ export function Community() {
                 )}
             </div>
             <hr />
+
+            <Button onClick={handleClick}>Test</Button>
 
             <table className="table table-dark">
                 <thead>
