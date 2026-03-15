@@ -6,6 +6,10 @@ function TradingViewWidget() {
 
   useEffect(
     () => {
+
+      if (container.current) {
+        container.current.innerHTML = ""; 
+      }
       const script = document.createElement("script");
       script.src = "https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js";
       script.type = "text/javascript";
@@ -41,6 +45,11 @@ function TradingViewWidget() {
           "height": "450"
         }`;
       container.current.appendChild(script);
+      return () => {
+        if (container.current) {
+            container.current.innerHTML = "";
+        }
+      };
     },
     []
   );

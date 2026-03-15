@@ -14,21 +14,48 @@ export function Dashboard({userName}) {
         return initialValue || {
             'CPI': false,
             'FEDFUNDS': false,
-            'AAPL': false
+            'MANU': false
         };
     });
+
+    const [FEDFUNDS, setFedRate] = React.useState('...');
+    const [CPILevel, setCPILevel] = React.useState('...');
+
+   React.useEffect(() => {
+        fetch('/api/proxy/inflation')
+            .then(res => res.json())
+            .then(data => {
+                if (data.rate) {
+                    setCPILevel(data.rate);
+                } else {
+                    throw new Error("No rate in response");
+                };
+            })
+            .catch(() => setCPILevel("(Error)"));
+
+        fetch('/api/proxy/rate')
+            .then(res => {
+                if (!res.ok) throw new Error('Network error');
+                return res.json();
+            })
+            .then(data => {
+                if (data.rate) {
+                    setFedRate(data.rate);
+                }
+            })
+            .catch((err) => {
+                console.error("FedFunds Fetch Error:", err);
+                setFedRate("(Error)"); 
+            });
+    }, []);
 
     const [manuPrice, setManuPrice] = React.useState('Loading...');
 
     React.useEffect(() => {
-    // Using a real financial data endpoint (satisfied CS260 rubric)
-    fetch('https://query1.finance.yahoo.com/v8/finance/chart/MANU')
-        .then(res => res.json())
-        .then(data => {
-        const price = data.chart.result[0].meta.regularMarketPrice;
-        setManuPrice(`$${price}`);
-        })
-        .catch(() => setManuPrice("Market Closed"));
+        fetch('/api/proxy/manu')
+            .then(res => res.json())
+            .then(data => setManuPrice(data.price))
+            .catch(() => setManuPrice("Market Closed"));
     }, []);
 
     React.useEffect(() => {
@@ -60,11 +87,28 @@ export function Dashboard({userName}) {
   return (
 
     <main className="container-fluid bg-secondary text-left">
-      <br/>
-      <h2>Your Dashboard</h2>
-      <p className="text-light">Current MANU Price: <span className="text-success">{manuPrice}</span></p>
+        <br/>
+        <h2>Your Dashboard</h2>
+        <div className="d-flex flex-wrap gap-2 mt-2 mb-3">
+            {activeCharts['MANU'] && (
+                <span className="badge bg-dark">
+                    Live MANU Price: <span style={{ color: '#22ce34' }}>{manuPrice}</span>
+                </span>
+            )}
 
-        
+            {activeCharts['CPI'] && (
+                <span className="badge bg-dark">
+                    Current CPI Level: <span style={{ color: '#22ce34' }}>{CPILevel}</span>
+                </span>
+            )}
+
+            {activeCharts['FEDFUNDS'] && (
+                <span className="badge bg-dark">
+                    Current FEDFUNDS Rate: <span style={{ color: '#22ce34' }}>{FEDFUNDS}</span>
+                </span>
+            )}
+        </div>
+                
 
         <div className="row align-items-start">
             <div className="col-md-4 text-start">
@@ -72,15 +116,15 @@ export function Dashboard({userName}) {
                 <form>
                     <div className="form-check">
                         <input className="form-check-input" type="checkbox" id="Consumer Price Index" name="CPI" onChange={onCheckboxChange} checked={activeCharts['CPI']}></input>
-                        <label className="form-check-label" for="Consumer Price Index">Display Consumer Price Index data</label>
+                        <label className="form-check-label" htmlFor="Consumer Price Index">Display Consumer Price Index data</label>
                     </div>
                     <div className="form-check">
                         <input className="form-check-input" type="checkbox" id="Federal Funds Rate" name="FEDFUNDS" onChange={onCheckboxChange} checked={activeCharts['FEDFUNDS']}></input>
-                        <label className="form-check-label" for="Federal Funds Rate">Display Federal Funds Rate data</label>
+                        <label className="form-check-label" htmlFor="Federal Funds Rate">Display Federal Funds Rate data</label>
                     </div>
                     <div className="form-check">
-                        <input className="form-check-input" type="checkbox" id="Apple" name="AAPL" onChange={onCheckboxChange} checked={activeCharts['AAPL']}></input>
-                        <label className="form-check-label" for="Apple">Display Apple data</label>
+                        <input className="form-check-input" type="checkbox" id="Manchester United" name="MANU" onChange={onCheckboxChange} checked={activeCharts['MANU']}></input>
+                        <label className="form-check-label" htmlFor="Manchester United">Display MANU data</label>
                     </div>
                 </form> 
                 <div style={{minHeight: '90px'}}>
@@ -99,7 +143,7 @@ export function Dashboard({userName}) {
                         <iframe
                             src="https://fred.stlouisfed.org/graph/graph-landing.php?g=1Tx1I&width=670&height=475"
                             style={{ border: 'none', width: '700px', height: '450px' }} 
-                            frameborder="0"
+                            frameBorder="0"
                             title="CPI Graph">
                         </iframe>
                     </div>
@@ -111,15 +155,15 @@ export function Dashboard({userName}) {
                             <iframe 
                                 src="https://fred.stlouisfed.org/graph/graph-landing.php?g=1T5b1&width=670&height=475" 
                                 style={{ border: 'none', width: '700px', height: '450px' }} 
-                                frameborder="0"
+                                frameBorder="0"
                                 title="FEDFUNDS Graph"
                             ></iframe>
                         </div>
                     )}
 
-                    {activeCharts['AAPL'] && (
+                    {activeCharts['MANU'] && (
                     <div className='mb-4'>
-                        <h5>AAPL</h5>
+                        <h5>MANU</h5>
                             <TradingViewWidget />   
                     </div>
                     )}
