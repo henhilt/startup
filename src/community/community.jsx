@@ -5,7 +5,10 @@ import './community.css'
 export function Community() {
 
     const [communityLogins, setCommunityLogins] = React.useState([]);
-    const [updates, setUpdates] = React.useState([]);
+    const [updates, setUpdates] = React.useState(() => {
+        const saved = localStorage.getItem('community_cache');
+        return saved ? JSON.parse(saved) : [];
+    });
 
     React.useEffect(() => {
         const loginsText = localStorage.getItem('communityLogins');
@@ -14,14 +17,15 @@ export function Community() {
         }
 
         function fetchUpdates() {
-        fetch('/api/community-updates')
-            .then((response) => response.json())
-            .then((communityUpdates) => {
-                setUpdates(communityUpdates);
-            })
-            .catch((err) => console.log("Backend not reached yet:", err));
-    }
-
+            fetch('/api/community-updates')
+                .then((response) => response.json())
+                .then((communityUpdates) => {
+                    setUpdates(communityUpdates);
+                    localStorage.setItem('community_cache', JSON.stringify(communityUpdates));
+                })
+                .catch((err) => console.log("Backend not reached yet:", err));
+        }
+        fetchUpdates();
         const interval = setInterval(fetchUpdates, 5000)
         return () => clearInterval(interval);
     }, []);
@@ -85,8 +89,6 @@ export function Community() {
                 )}
             </div>
             <hr />
-
-            <Button onClick={handleClick}>Test</Button>
 
             <table className="table table-dark">
                 <thead>
