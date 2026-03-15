@@ -34,9 +34,9 @@ export function Dashboard({userName}) {
             })
             .catch(() => setCPILevel("(Error)"));
 
-        fetch('/api/proxy/rate')
+        fetch('/api/proxy/rate', { credentials: 'include'})
             .then(res => {
-                if (!res.ok) throw new Error('Network error');
+                if (res.status===401) throw new Error('Not logged in');
                 return res.json();
             })
             .then(data => {
@@ -85,99 +85,101 @@ export function Dashboard({userName}) {
         }
     }
 
-  return (
-
+return (
     <main className="dashboard-page container-fluid text-left">
         <br/>
         <h2>Your Dashboard</h2>
+        
         <div className="d-flex flex-wrap gap-2 mt-2 mb-3">
             {activeCharts['MANU'] && (
                 <span className="badge bg-dark">
                     Live MANU Price: <span style={{ color: '#22ce34' }}>{manuPrice}</span>
                 </span>
             )}
-
             {activeCharts['CPI'] && (
                 <span className="badge bg-dark">
                     Current CPI Level: <span style={{ color: '#22ce34' }}>{CPILevel}</span>
                 </span>
             )}
-
             {activeCharts['FEDFUNDS'] && (
                 <span className="badge bg-dark">
                     Current FEDFUNDS Rate: <span style={{ color: '#22ce34' }}>{FEDFUNDS}</span>
                 </span>
             )}
         </div>
-                
 
-        <div className="row align-items-start">
-            <div className="col-md-4 text-start">
+        <div style={{ display: 'flex', width: '100%', minWidth: '1300px' }}>            
+            <div style={{ width: '300px', flexShrink: 0 }}>
                 <h4>Select Your Watchlist</h4>
                 <form>
                     <div className="form-check">
-                        <input className="form-check-input" type="checkbox" id="Consumer Price Index" name="CPI" onChange={onCheckboxChange} checked={activeCharts['CPI']}></input>
-                        <label className="form-check-label" htmlFor="Consumer Price Index">Display Consumer Price Index data</label>
+                        <input className="form-check-input" type="checkbox" id="CPI" name="CPI" onChange={onCheckboxChange} checked={activeCharts['CPI']} />
+                        <label className="form-check-label" htmlFor="CPI">Display CPI data</label>
                     </div>
                     <div className="form-check">
-                        <input className="form-check-input" type="checkbox" id="Federal Funds Rate" name="FEDFUNDS" onChange={onCheckboxChange} checked={activeCharts['FEDFUNDS']}></input>
-                        <label className="form-check-label" htmlFor="Federal Funds Rate">Display Federal Funds Rate data</label>
+                        <input className="form-check-input" type="checkbox" id="FEDFUNDS" name="FEDFUNDS" onChange={onCheckboxChange} checked={activeCharts['FEDFUNDS']} />
+                        <label className="form-check-label" htmlFor="FEDFUNDS">Display Fed Funds data</label>
                     </div>
                     <div className="form-check">
-                        <input className="form-check-input" type="checkbox" id="Manchester United" name="MANU" onChange={onCheckboxChange} checked={activeCharts['MANU']}></input>
-                        <label className="form-check-label" htmlFor="Manchester United">Display MANU data</label>
+                        <input className="form-check-input" type="checkbox" id="MANU" name="MANU" onChange={onCheckboxChange} checked={activeCharts['MANU']} />
+                        <label className="form-check-label" htmlFor="MANU">Display MANU data</label>
                     </div>
-                </form> 
-                <div style={{minHeight: '90px'}}>
+                </form>
+                <div style={{minHeight: '90px', marginTop: '20px'}}>
                     {localMessage && (
-                    <div className='alert alert-success' role='alert'>
-                        {localMessage}
-                    </div>
+                        <div className='alert alert-success' role='alert'>{localMessage}</div>
                     )}
                 </div>
             </div>
-            <div className="col-md-8 text-end">
-                <div id='chartArea' className="text-end" style={{ display: 'flow-root', minHeight: 'fit-content' }}>
-                    {activeCharts['CPI'] && (
-                    <div className='mb-4'>
-                        <h5>CPI</h5>
-                        <div className='chart-box'>
-                            <iframe
-                                src="https://fred.stlouisfed.org/graph/graph-landing.php?g=1Tx1I&width=670&height=475"
-                                style={{ width: '100%', height: '400px', border: 'none' }}
-                                frameBorder="0"
-                                title="CPI Graph">
-                            </iframe>
-                        </div>
-                    </div>
-                    )}
-                
-                    {activeCharts['FEDFUNDS'] && (
-                    <div className='mb-4'>
-                        <h5>FEDFUNDS</h5>
-                            <div className='chart-box'>
-                                <iframe 
-                                    src="https://fred.stlouisfed.org/graph/graph-landing.php?g=1T5b1&width=670&height=475" 
-                                    style={{ width: '100%', height: '400px', border: 'none' }}
-                                    frameBorder="0"
-                                    title="FEDFUNDS Graph"
-                                ></iframe>
-                            </div>
-                        </div>
-                    )}
 
-                    {activeCharts['MANU'] && (
-                        <div className='mb-4'>
-                            <h5>MANU</h5>
-                            {/* We put the width constraint here, NOT inside the widget component */}
-                            <div style={{ width: '100%', maxWidth: '670px', marginLeft: 'auto', overflow: 'hidden' }}>
-                                <TradingViewWidget />   
+                <div style={{ flexGrow: 1, minWidth: '980px' }}>                <div id='chartArea' style={{ display: 'inline-block', width: '980px' }}>
+                    <div id='chartArea' style={{ width: '980px' }}>
+                        {activeCharts['CPI'] && (
+                            <div className='mb-4'>
+                                <h5>CPI</h5>
+                                <div style={{ width: '100%', maxWidth: '980px', marginLeft: 'auto', overflow: 'hidden' }}>
+                                    <div className='chart-box'>
+                                        <iframe
+                                            src="https://fred.stlouisfed.org/graph/graph-landing.php?g=1Tx1I&width=980&height=475"
+                                            title="CPI Graph" 
+                                            style={{ minWidth: '980px' }}
+                                        ></iframe>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    )}
+                        )}
+                    
+                        {activeCharts['FEDFUNDS'] && (
+                            <div className='mb-4'>
+                                <h5>FEDFUNDS</h5>
+                                <div style={{ width: '100%', maxWidth: '980px', marginLeft: 'auto', overflow: 'hidden' }}>
+                                    <div className='chart-box' style={{ width: '980px', minWidth: '980px' }}>
+                                        <iframe 
+                                            src="https://fred.stlouisfed.org/graph/graph-landing.php?g=1T5b1&width=980&height=475" 
+                                            title="FEDFUNDS Graph"
+                                            style={{ 
+                                                width: '980px', 
+                                                minWidth: '980px',
+                                                height: '475px', 
+                                                border: 'none' 
+                                            }}
+                                        ></iframe>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+                        {activeCharts['MANU'] && (
+                            <div className='mb-4'>
+                                <h5>MANU</h5>
+                                <div style={{ width: '980px', marginLeft: 'auto', overflow: 'hidden' }}>
+                                    <TradingViewWidget />   
+                                </div>
+                            </div>
+                        )}
+                    </div>
                 </div>
-            </div>
-        </div>
+            </div> 
+        </div> 
     </main>
   );
 }

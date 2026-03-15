@@ -144,16 +144,19 @@ apiRouter.get('/proxy/inflation', async (req, res) => {
 // endpoint for Dashboard to fetch fed funds rate
 apiRouter.get('/proxy/rate', async (req, res) => {
     try {
-        // You can get a free key at alphavantage.co
         const apiKey = 'YZ49FYHNUH15FWSD'; 
         const response = await fetch(`https://www.alphavantage.co/query?function=FEDERAL_FUNDS_RATE&interval=monthly&apikey=${apiKey}`);
         const data = await response.json();
         
-        // Alpha Vantage returns a 'data' array with the latest at index 0
-        const latestRate = data.data[0].value;
-        res.send({ rate: latestRate + '%' });
+        if (data && data.data && data.data[0]) {
+            const latestRate = data.data[0].value;
+            res.send({ rate: latestRate + '%' });
+        } else {
+            console.error("Alpha Vantage structure mismatch:", data);
+            res.send({ rate: 'Limit hit' }); // Hardcoded fallback so your UI doesn't say "error"
+        }
     } catch (error) {
-        res.send({ rate: "5.33%" }); // Fallback to current real-world rate
+        res.send({ rate: 'Server Error' }); 
     }
 });
 

@@ -92,12 +92,12 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] **Node.js/Express HTTP service** - I did not complete this part of the deliverable.
-- [ ] **Static middleware for frontend** - I did not complete this part of the deliverable.
-- [ ] **Calls to third party endpoints** - I did not complete this part of the deliverable.
-- [ ] **Backend service endpoints** - I did not complete this part of the deliverable.
-- [ ] **Frontend calls service endpoints** - I did not complete this part of the deliverable.
-- [ ] **Supports registration, login, logout, and restricted endpoint** - I did not complete this part of the deliverable.
+- [x] **Node.js/Express HTTP service** - I used Node.JS/Express HTTP
+- [x] **Static middleware for frontend** - I used this in my index.js file.
+- [x] **Calls to third party endpoints** - I did this in my Dashboard.jsx/index.js to get real time data and charts from third party endpoints on my backend.
+- [x] **Backend service endpoints** - I created different endpoints in my index.js file for creating accounts and logging in, as well as my third party APIs.
+- [x] **Frontend calls service endpoints** - In my Dashboard.jsx I used fetch API to call my backend endpoints to get real time data, such as the MANU stock price.
+- [x] **Supports registration, login, logout, and restricted endpoint** - I have a logout function, login functions, used bcrypt to hash passwords, and used a restricted endpoint.
 
 
 ## 🚀 DB deliverable
