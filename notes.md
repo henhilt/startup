@@ -48,3 +48,10 @@ but make sure you save and then load data for old users
 can simulate websocket with setInterval
 
 divs around my objects gives me more control over relative spacing (especially needed on my login and my dashboard)
+
+## Service
+
+make sure to use port 4000 for backend service
+
+new deploy script
+./deployService.sh -k "C:\Users\hilto\Documents\BYU\Winter2026\Key260\production.pem" -h findash260.click -s startup
