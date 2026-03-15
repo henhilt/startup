@@ -82,7 +82,7 @@ apiRouter.get('/test', (_req, res) => {
 });
 
 // Get community updates
-apiRouter.get('/community', verifyAuth, (_req, res) => {
+apiRouter.get('/community-updates', (_req, res) => {
   console.log("In community");
   // eventually gonnna return list of community updates here
   res.send(communityUpdates);
@@ -90,10 +90,14 @@ apiRouter.get('/community', verifyAuth, (_req, res) => {
 
 // Update a user's watchlist
 apiRouter.post('/update-watchlist', verifyAuth, (req, res) => {
-  console.log("In update watchlist");
-  const userSelectionUpdate = req.body;
-  console.log(`${userSelectionUpdate.user} started tracking ${userSelectionUpdate.asset}`);
-  res.status(200).send({ msg: `${userSelectionUpdate.asset} added to watchlist` })
+    console.log("In update watchlist");
+    const userSelectionUpdate = req.body;
+
+    communityUpdates.unshift(userSelectionUpdate);
+    communityUpdates = communityUpdates.slice(0, 4);
+
+    console.log(`${userSelectionUpdate.user} started tracking ${userSelectionUpdate.asset}`);
+    res.status(200).send({ msg: `${userSelectionUpdate.asset} added to watchlist` })
 });
 
 // Default error handler

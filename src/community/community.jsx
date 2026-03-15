@@ -13,32 +13,20 @@ export function Community() {
             setCommunityLogins(JSON.parse(loginsText));
         }
 
-        const updatesText = localStorage.getItem('communityWatchlist');
-        if (updatesText) {
-            setUpdates(JSON.parse(updatesText));
-        }
+        function fetchUpdates() {
+        fetch('/api/community-updates')
+            .then((response) => response.json())
+            .then((communityUpdates) => {
+                setUpdates(communityUpdates);
+            })
+            .catch((err) => console.log("Backend not reached yet:", err));
+    }
 
-        const interval = setInterval(() => {
-
-            const ghostNames = ['Joey Pants', 'hotel', 'golf', 'delta'];
-            const ghostAssets = ['AAPL', 'CPI', 'FEDFUNDS'];
-
-            const randomName = ghostNames[Math.floor(Math.random() * ghostNames.length)];
-            const randomAsset = ghostAssets[Math.floor(Math.random() * ghostAssets.length)];
-
-            const ghostUpdate = {
-                user: randomName,
-                action: ' started tracking ',
-                asset: randomAsset,
-                timestamp: new Date().getTime()
-            };
-            setUpdates(prev => [ghostUpdate, ...prev].slice(0,5));
-
-        }, 7000)
+        const interval = setInterval(fetchUpdates, 5000)
         return () => clearInterval(interval);
     }, []);
 
-
+/* simon test
     function handleClick() {
         console.log('Button clicked');
         fetch('/api/test')
@@ -49,6 +37,7 @@ export function Community() {
             setTestStuff(testing.test);
             });
     }
+*/
 
     const loginRows = [];
     if (communityLogins.length) {
