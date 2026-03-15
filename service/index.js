@@ -11,6 +11,7 @@ app.use(express.static('public'));
 // The scores and users are saved in memory and disappear whenever the service is restarted.
 let users = [];
 let communityUpdates = [];
+let userCommunity = [];
 
 // The service port. In production the front-end code is statically hosted by the service on the same port.
 const port = process.argv.length > 2 ? process.argv[2] : 4000;
@@ -25,29 +26,37 @@ app.use(cookieParser());
 app.use(express.static('public'));
 
 // Router for service endpoints
-var apiRouter = express.Router();
+const apiRouter = express.Router();
 app.use(`/api`, apiRouter);
 
 // CreateAuth a new user
 apiRouter.post('/auth/create', async (req, res) => {
-  if (await findUser('email', req.body.email)) {
+  if (await findUser('username', req.body.username)) {
     res.status(409).send({ msg: 'Existing user' });
   } else {
-    const user = await createUser(req.body.email, req.body.password);
-
+    const user = await createUser(req.body.username, req.body.password);
     setAuthCookie(res, user.token);
-    res.send({ email: user.email });
+
+    globalLogins.unshift({ name: username, time: new Date().toLocaleTimeString() });
+
+    res.send({ username: user.username });
   }
 });
 
 // GetAuth login an existing user
 apiRouter.post('/auth/login', async (req, res) => {
-  const user = await findUser('email', req.body.email);
+  const user = await findUser('username', req.body.user);
   if (user) {
     if (await bcrypt.compare(req.body.password, user.password)) {
       user.token = uuid.v4();
       setAuthCookie(res, user.token);
-      res.send({ email: user.email });
+
+        const newEntry = { 
+            name: username, 
+            time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) 
+        };
+
+      res.send({ username: user.username });
       return;
     }
   }
@@ -73,6 +82,11 @@ const verifyAuth = async (req, res, next) => {
     res.status(401).send({ msg: 'Unauthorized' });
   }
 };
+
+// endpoint for Community page to fetch login list
+apiRouter.get('/logins', (req, res) => {
+    res.send(globalLogins);
+});
 
 // test like simon exapmple
 var testdata = {test:"testdata"}
@@ -100,6 +114,52 @@ apiRouter.post('/update-watchlist', verifyAuth, (req, res) => {
     res.status(200).send({ msg: `${userSelectionUpdate.asset} added to watchlist` })
 });
 
+// endpoint for Dashboard to fetch inflation rate
+apiRouter.get('/proxy/inflation', async (req, res) => {
+    console.log("Backend received a request for inflation!"); // Check your terminal for this!
+    try {
+        const response = await fetch('https://api.worldbank.org/v2/country/US/indicator/FP.CPI.TOTL.ZG?format=json&per_page=5');        const data = await response.json();
+        const observations = data[1];
+        const latestValid = observations.find(obs => obs.value !== null);
+
+        if (latestValid) {
+                res.send({ rate: latestValid.value.toFixed(2) + '%' });
+            } else {
+                res.status(404).send({ error: 'No data found' });
+            }
+        } catch (error) {
+            res.status(500).send({ error: 'Server Error' });
+    }
+});
+
+// endpoint for Dashboard to fetch fed funds rate
+apiRouter.get('/proxy/rate', async (req, res) => {
+    try {
+        // You can get a free key at alphavantage.co
+        const apiKey = 'YZ49FYHNUH15FWSD'; 
+        const response = await fetch(`https://www.alphavantage.co/query?function=FEDERAL_FUNDS_RATE&interval=monthly&apikey=${apiKey}`);
+        const data = await response.json();
+        
+        // Alpha Vantage returns a 'data' array with the latest at index 0
+        const latestRate = data.data[0].value;
+        res.send({ rate: latestRate + '%' });
+    } catch (error) {
+        res.send({ rate: "5.33%" }); // Fallback to current real-world rate
+    }
+});
+
+// endpoint for Dashboard to fetch MANU price
+apiRouter.get('/proxy/manu', async (req, res) => {
+    try {
+        const response = await fetch('https://query1.finance.yahoo.com/v8/finance/chart/MANU');
+        const data = await response.json();
+        const price = data.chart.result[0].meta.regularMarketPrice;
+        res.send({ price: `$${price}` });
+    } catch (error) {
+        res.status(500).send({ error: "Failed to fetch MANU" });
+    }
+});
+
 // Default error handler
 app.use(function (err, req, res, next) {
   res.status(500).send({ type: err.name, message: err.message });
@@ -110,11 +170,11 @@ app.use((_req, res) => {
   res.sendFile('index.html', { root: 'public' });
 });
 
-async function createUser(email, password) {
+async function createUser(username, password) {
   const passwordHash = await bcrypt.hash(password, 10);
 
   const user = {
-    email: email,
+    username: username,
     password: passwordHash,
     token: uuid.v4(),
   };
