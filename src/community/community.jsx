@@ -24,6 +24,13 @@ export function Community() {
                     localStorage.setItem('community_cache', JSON.stringify(communityUpdates));
                 })
                 .catch((err) => console.log("Backend not reached yet:", err));
+
+               fetch('/api/logins')
+                    .then((res) => res.json())
+                    .then((data) => {
+                        setCommunityLogins(data);
+                    })
+                    .catch((err) => console.log("Login fetch error:", err)); 
         }
         fetchUpdates();
         const interval = setInterval(fetchUpdates, 5000)
@@ -42,26 +49,6 @@ export function Community() {
             });
     }
 */
-
-    const loginRows = [];
-    if (communityLogins.length) {
-        for (const [i, login] of communityLogins.entries()) {
-            loginRows.push(
-                <tr key={i}>
-                    <td>{i+1}</td>
-                    <td>{login.name}</td>
-                    <td>{login.time}</td>
-                </tr>
-            )
-        }
-    } else {
-        loginRows.push(
-            <tr key = '--'>
-                <td colSpan='3'> Be the first to login</td>
-            </tr>
-        );
-    }
-
 
   return (
     <main className="container-fluid bg-secondary text-left">
@@ -99,7 +86,19 @@ export function Community() {
                     </tr>
                 </thead>
                 <tbody>
-                    {loginRows}
+                    {communityLogins.length > 0 ? (
+                        communityLogins.map((login, i) => (
+                            <tr key={i}>
+                                <td>{i + 1}</td>
+                                <td style={{ color: 'rgb(22, 206, 52)' }}>{login.name}</td>
+                                <td>{login.time}</td>
+                            </tr>
+                        ))
+                    ) : (
+                        <tr>
+                            <td colSpan="3" className="text-center">Be the first to login</td>
+                        </tr>
+                    )}
                 </tbody>
             </table>
   </main>

@@ -21,8 +21,12 @@ main {
 }
 
 footer {
-  flex: 0 30px;
+  flex-shrink: 0;
   border-top: solid rgb(22, 206, 52) medium;
+  margin-top: auto;
+  width: 100%;
+  z-index:10;
+  
 }
 
 menu {

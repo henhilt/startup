@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { DashNotifier, DashEvent } from './dashNotifier';
 import TradingViewWidget from './TradingViewWidget';
+import './dashboard.css'
 
 export function Dashboard({userName}) {
 
@@ -86,7 +87,7 @@ export function Dashboard({userName}) {
 
   return (
 
-    <main className="container-fluid bg-secondary text-left">
+    <main className="dashboard-page container-fluid text-left">
         <br/>
         <h2>Your Dashboard</h2>
         <div className="d-flex flex-wrap gap-2 mt-2 mb-3">
@@ -136,38 +137,45 @@ export function Dashboard({userName}) {
                 </div>
             </div>
             <div className="col-md-8 text-end">
-                <div id='chartArea' className="text-end" style={{minHeight: '80vh', minWidth: '400px'}}>
+                <div id='chartArea' className="text-end" style={{ minHeight: 'fit-content' }}>
                     {activeCharts['CPI'] && (
                     <div className='mb-4'>
                         <h5>CPI</h5>
-                        <iframe
-                            src="https://fred.stlouisfed.org/graph/graph-landing.php?g=1Tx1I&width=670&height=475"
-                            style={{ border: 'none', width: '700px', height: '450px' }} 
-                            frameBorder="0"
-                            title="CPI Graph">
-                        </iframe>
+                        <div className='chart-box'>
+                            <iframe
+                                src="https://fred.stlouisfed.org/graph/graph-landing.php?g=1Tx1I&width=670&height=475"
+                                style={{ width: '100%', height: '400px', border: 'none' }}
+                                frameBorder="0"
+                                title="CPI Graph">
+                            </iframe>
+                        </div>
                     </div>
                     )}
                 
                     {activeCharts['FEDFUNDS'] && (
                     <div className='mb-4'>
                         <h5>FEDFUNDS</h5>
-                            <iframe 
-                                src="https://fred.stlouisfed.org/graph/graph-landing.php?g=1T5b1&width=670&height=475" 
-                                style={{ border: 'none', width: '700px', height: '450px' }} 
-                                frameBorder="0"
-                                title="FEDFUNDS Graph"
-                            ></iframe>
+                            <div className='chart-box'>
+                                <iframe 
+                                    src="https://fred.stlouisfed.org/graph/graph-landing.php?g=1T5b1&width=670&height=475" 
+                                    style={{ width: '100%', height: '400px', border: 'none' }}
+                                    frameBorder="0"
+                                    title="FEDFUNDS Graph"
+                                ></iframe>
+                            </div>
                         </div>
                     )}
 
                     {activeCharts['MANU'] && (
-                    <div className='mb-4'>
-                        <h5>MANU</h5>
-                            <TradingViewWidget />   
-                    </div>
+                        <div className='mb-4'>
+                            <h5>MANU</h5>
+                            {/* We put the width constraint here, NOT inside the widget component */}
+                            <div style={{ width: '100%', maxWidth: '670px', marginLeft: 'auto', overflow: 'hidden' }}>
+                                <TradingViewWidget />   
+                            </div>
+                        </div>
                     )}
-                </div> 
+                </div>
             </div>
         </div>
     </main>

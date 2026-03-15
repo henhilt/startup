@@ -10,8 +10,8 @@ app.use(express.static('public'));
 
 // The scores and users are saved in memory and disappear whenever the service is restarted.
 let users = [];
-let communityUpdates = [];
-let userCommunity = [];
+let communityUpdates = []; // watchlist updates from fellow users
+let userCommunity = []; // login data of users for community page
 
 // The service port. In production the front-end code is statically hosted by the service on the same port.
 const port = process.argv.length > 2 ? process.argv[2] : 4000;
@@ -31,36 +31,45 @@ app.use(`/api`, apiRouter);
 
 // CreateAuth a new user
 apiRouter.post('/auth/create', async (req, res) => {
-  if (await findUser('username', req.body.username)) {
-    res.status(409).send({ msg: 'Existing user' });
-  } else {
-    const user = await createUser(req.body.username, req.body.password);
-    setAuthCookie(res, user.token);
+    console.log("Create Body:", req.body);
 
-    globalLogins.unshift({ name: username, time: new Date().toLocaleTimeString() });
+    const username = req.body.username; 
+    const password = req.body.password;
 
-    res.send({ username: user.username });
-  }
+
+    if (await findUser('username', username)) {
+        res.status(409).send({ msg: 'Existing user' });
+    } else {
+        const user = await createUser(username, password);
+        setAuthCookie(res, user.token);
+
+        userCommunity.unshift({ name: username, time: new Date().toLocaleTimeString() });
+
+        res.send({ username: user.username });
+    }
 });
 
 // GetAuth login an existing user
 apiRouter.post('/auth/login', async (req, res) => {
-  const user = await findUser('username', req.body.user);
-  if (user) {
-    if (await bcrypt.compare(req.body.password, user.password)) {
-      user.token = uuid.v4();
-      setAuthCookie(res, user.token);
+    const username = req.body.username;
+    const password = req.body.password;
 
-        const newEntry = { 
-            name: username, 
-            time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) 
-        };
+    const user = await findUser('username', username);
+    if (user) {
+        if (await bcrypt.compare(password, user.password)) {
+        user.token = uuid.v4();
+        setAuthCookie(res, user.token);
 
-      res.send({ username: user.username });
-      return;
+            userCommunity.unshift({
+                name: username,
+            time: new Date().toLocaleTimeString()
+            });
+
+        res.send({ username: user.username });
+        return;
+        }
     }
-  }
-  res.status(401).send({ msg: 'Unauthorized' });
+    res.status(401).send({ msg: 'Unauthorized' });
 });
 
 // DeleteAuth logout a user
@@ -85,7 +94,7 @@ const verifyAuth = async (req, res, next) => {
 
 // endpoint for Community page to fetch login list
 apiRouter.get('/logins', (req, res) => {
-    res.send(globalLogins);
+    res.send(userCommunity);
 });
 
 // test like simon exapmple
@@ -171,16 +180,16 @@ app.use((_req, res) => {
 });
 
 async function createUser(username, password) {
-  const passwordHash = await bcrypt.hash(password, 10);
 
-  const user = {
-    username: username,
-    password: passwordHash,
-    token: uuid.v4(),
-  };
-  users.push(user);
+    const passwordHash = await bcrypt.hash(password, 10);
 
-  return user;
+    const user = {
+        username: username,
+        password: passwordHash,
+        token: uuid.v4(),
+    };
+    users.push(user);
+    return user;
 }
 
 async function findUser(field, value) {

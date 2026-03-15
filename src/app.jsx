@@ -47,26 +47,26 @@ function App() {
                     </menu>
                 </nav>
             </header>
-
-            <Routes>
-                <Route path='/'
-                    element={
-                        <Login
-                            userName={userName}
-                            authState={authState}
-                            onAuthChange={(userName, authState) => {
-                                setAuthState(authState);
-                                setUserName(userName);
-                            }}
-                        />
-                    }
-                    exact
-                />
-                <Route path='/community' element={<Community />} />
-                <Route path='/dashboard' element={<Dashboard userName={userName} key={userName}/>} />
-                <Route path='*' element={<NotFound />} />
-            </Routes>
-
+            <main>
+                <Routes>
+                    <Route path='/'
+                        element={
+                            <Login
+                                userName={userName}
+                                authState={authState}
+                                onAuthChange={(userName, authState) => {
+                                    setAuthState(authState);
+                                    setUserName(userName);
+                                }}
+                            />
+                        }
+                        exact
+                    />
+                    <Route path='/community' element={<Community />} />
+                    <Route path='/dashboard' element={<Dashboard userName={userName} key={userName}/>} />
+                    <Route path='*' element={<NotFound />} />
+                </Routes>
+            </main>
             <footer className="bg-dark text-white-50">
                 <div className="container-fluid">
                 <span className="text-reset">Author Name(s): HSH</span>
