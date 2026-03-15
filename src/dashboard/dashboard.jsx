@@ -137,7 +137,7 @@ export function Dashboard({userName}) {
                 </div>
             </div>
             <div className="col-md-8 text-end">
-                <div id='chartArea' className="text-end" style={{ minHeight: 'fit-content' }}>
+                <div id='chartArea' className="text-end" style={{ display: 'flow-root', minHeight: 'fit-content' }}>
                     {activeCharts['CPI'] && (
                     <div className='mb-4'>
                         <h5>CPI</h5>

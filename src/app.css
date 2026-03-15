@@ -1,9 +1,17 @@
 @import url('https://fonts.googleapis.com');
 
+#root, .body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+}
+
 .body {
   display: flex;
   flex-direction: column;
   min-width: 375px;
+  min-height: 100vh;;
   font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
@@ -12,21 +20,21 @@ header {
 }
 
 main {
-  flex: 1 calc(100vh - 110px);
+  
+  flex: 1 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-around;
+  justify-content: flex-start;
   font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
 footer {
   flex-shrink: 0;
   border-top: solid rgb(22, 206, 52) medium;
-  margin-top: auto;
   width: 100%;
-  z-index:10;
-  
+  z-index:100;
+  position: relative;
 }
 
 menu {
