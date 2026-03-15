@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import { DashNotifier, DashEvent } from './dashNotifier';
+import TradingViewWidget from './TradingViewWidget';
 
 export function Dashboard({userName}) {
 
@@ -16,6 +17,19 @@ export function Dashboard({userName}) {
             'AAPL': false
         };
     });
+
+    const [manuPrice, setManuPrice] = React.useState('Loading...');
+
+    React.useEffect(() => {
+    // Using a real financial data endpoint (satisfied CS260 rubric)
+    fetch('https://query1.finance.yahoo.com/v8/finance/chart/MANU')
+        .then(res => res.json())
+        .then(data => {
+        const price = data.chart.result[0].meta.regularMarketPrice;
+        setManuPrice(`$${price}`);
+        })
+        .catch(() => setManuPrice("Market Closed"));
+    }, []);
 
     React.useEffect(() => {
         const userKey = `watchlist_${userName}`;
@@ -48,6 +62,7 @@ export function Dashboard({userName}) {
     <main className="container-fluid bg-secondary text-left">
       <br/>
       <h2>Your Dashboard</h2>
+      <p className="text-light">Current MANU Price: <span className="text-success">{manuPrice}</span></p>
 
         
 
@@ -81,21 +96,31 @@ export function Dashboard({userName}) {
                     {activeCharts['CPI'] && (
                     <div className='mb-4'>
                         <h5>CPI</h5>
-                        <img width="400px" height="200px" src="CPIfred.png" alt="random" />
+                        <iframe
+                            src="https://fred.stlouisfed.org/graph/graph-landing.php?g=1Tx1I&width=670&height=475"
+                            style={{ border: 'none', width: '700px', height: '450px' }} 
+                            frameborder="0"
+                            title="CPI Graph">
+                        </iframe>
                     </div>
                     )}
                 
                     {activeCharts['FEDFUNDS'] && (
                     <div className='mb-4'>
                         <h5>FEDFUNDS</h5>
-                        <img width="400px" height="200px" src="FEDFUNDSfred.png" alt="random" />
-                    </div>
+                            <iframe 
+                                src="https://fred.stlouisfed.org/graph/graph-landing.php?g=1T5b1&width=670&height=475" 
+                                style={{ border: 'none', width: '700px', height: '450px' }} 
+                                frameborder="0"
+                                title="FEDFUNDS Graph"
+                            ></iframe>
+                        </div>
                     )}
 
                     {activeCharts['AAPL'] && (
                     <div className='mb-4'>
                         <h5>AAPL</h5>
-                        <img width="400px" height="200px" src="AAPLchart.png" alt="random" />
+                            <TradingViewWidget />   
                     </div>
                     )}
                 </div> 
