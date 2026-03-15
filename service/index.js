@@ -10,7 +10,7 @@ app.use(express.static('public'));
 
 // The scores and users are saved in memory and disappear whenever the service is restarted.
 let users = [];
-let scores = [];
+let communityUpdates = [];
 
 // The service port. In production the front-end code is statically hosted by the service on the same port.
 const port = process.argv.length > 2 ? process.argv[2] : 4000;
@@ -74,22 +74,26 @@ const verifyAuth = async (req, res, next) => {
   }
 };
 
-// GetScores
-apiRouter.get('/scores', verifyAuth, (_req, res) => {
-  console.log("In scores")
-  res.send(scores);
-});
-
+// test like simon exapmple
 var testdata = {test:"testdata"}
 apiRouter.get('/test', (_req, res) => {
   console.log("In test")
   res.send(testdata);
 });
 
-// SubmitScore
-apiRouter.post('/score', verifyAuth, (req, res) => {
-  scores = updateScores(req.body);
-  res.send(scores);
+// Get community updates
+apiRouter.get('/community', verifyAuth, (_req, res) => {
+  console.log("In community");
+  // eventually gonnna return list of community updates here
+  res.send(communityUpdates);
+});
+
+// Update a user's watchlist
+apiRouter.post('/update-watchlist', verifyAuth, (req, res) => {
+  console.log("In update watchlist");
+  const userSelectionUpdate = req.body;
+  console.log(`${userSelectionUpdate.user} started tracking ${userSelectionUpdate.ticker}`);
+  res.status(200).send({ msg: 'Watchlist updated' })
 });
 
 // Default error handler
