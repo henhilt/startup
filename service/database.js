@@ -51,26 +51,28 @@ async function updateUserRemoveAuth(user) {
   await userCollection.updateOne({ email: user.email }, { $unset: { token: 1 } });
 }
 
-async function addScore(score) {
-  return scoreCollection.insertOne(score);
+function addLogin(loginEntry) {
+  return loginCollectionn.insertOne(loginEntry);
 }
 
-function getHighScores() {
-  const query = { score: { $gt: 0, $lt: 900 } };
-  const options = {
-    sort: { score: -1 },
-    limit: 10,
-  };
-  const cursor = scoreCollection.find(query, options);
-  return cursor.toArray();
+function getLogins() {
+  return loginCollection.find(),sort({ _id: -1 }).limit(10).toArray();
 }
 
-module.exports = {
+function addWatchlistUpdate(update) {
+  return updateCollection.insertOne(update);
+}
+
+function getCommunityUpdates() {
+  return updateCollection.find(),sort({ _id: -1 }).limit(4).toArray();
+}
+
+module.exports = { 
   getUser,
   getUserByToken,
-  addUser,
-  updateUser,
-  updateUserRemoveAuth,
-  addScore,
-  getHighScores,
+  createUser,
+  addLogin,
+  getLogins,
+  addWatchlistUpdate,
+  getCommunityUpdates
 };

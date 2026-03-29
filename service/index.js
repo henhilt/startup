@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs');
 const express = require('express');
 const uuid = require('uuid');
 const app = express();
+const DB = require('./database.js');
 
 const authCookieName = 'token';
 
@@ -57,7 +58,7 @@ apiRouter.post('/auth/login', async (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
 
-    const user = await findUser('username', username);
+    const user = await DB.getUser(username);
     if (user) {
         if (await bcrypt.compare(password, user.password)) {
         user.token = uuid.v4();
@@ -65,7 +66,7 @@ apiRouter.post('/auth/login', async (req, res) => {
 
             userCommunity.unshift({
                 name: username,
-            time: new Date().toLocaleTimeString()
+                time: new Date().toLocaleTimeString()
             });
 
         res.send({ username: user.username });
