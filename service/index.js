@@ -55,17 +55,17 @@ apiRouter.post('/auth/login', async (req, res) => {
     const user = await DB.getUser(username);
     if (user) {
         if (await bcrypt.compare(password, user.password)) {
-        user.token = uuid.v4();
-        await DB.updateUserToken(user.username, user.token);
-        setAuthCookie(res, user.token);
+            user.token = uuid.v4();
+            await DB.updateUserToken(user.username, user.token);
+            setAuthCookie(res, user.token);
 
-        await DB.addLoginEvent({
-            name: username,
-            time: new Date().toLocaleDateString()
-        });
+            await DB.addLogin({
+                name: username,
+                time: new Date().toLocaleTimeString()
+            });
 
-        res.send({ username: user.username });
-        return;
+            res.send({ username: user.username });
+            return;
         }
     }
     res.status(401).send({ msg: 'Unauthorized' });
@@ -73,17 +73,20 @@ apiRouter.post('/auth/login', async (req, res) => {
 
 // DeleteAuth logout a user
 apiRouter.delete('/auth/logout', async (req, res) => {
-  const user = await DB.getUserByToken(req.cookie[authCookieName]);
-  if (user) {
-    delete user.token;
+  const token = req.cookies[authCookieName];
+
+  if (token) {
+    await DB.logoutUser(token);
   }
+
   res.clearCookie(authCookieName);
   res.status(204).end();
 });
 
 // Middleware to verify that the user is authorized to call an endpoint
 const verifyAuth = async (req, res, next) => {
-  const user = await DB.getUserByToken(req.cookies[authCookieName]);
+  const token = req.cookies[authCookieName];
+  const user = await DB.getUserByToken(token);
   if (user) {
     next();
   } else {
