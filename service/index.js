@@ -104,9 +104,10 @@ apiRouter.get('/logins', async (req, res) => {
 apiRouter.get('/user-data', verifyAuth, async (req, res) => {
     const user = await DB.getUserByToken(req.cookies[authCookieName]);
     if (user) {
+        const watchlist = await DB.getUserWatchlist(req.cookies[authCookieName]);
         res.send({ watchlist: user.watchlist || {} });
     } else {
-        res.status(404).send({ msg: 'User not found' });
+        res.status(401).send({ msg: 'Unauthorized' });
     }
 });
 

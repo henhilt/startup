@@ -73,6 +73,20 @@ async function updateUserWatchlist(username, watchlist) {
   );
 }
 
+// get user specific dashboard settings
+async function getUserWatchlist(username) {
+  const user = await userCollection.findOne({ username: username });
+  return user?.watchlist || { 'CPI': false, 'FEDFUNDS': false, 'MANU': false };
+}
+
+// update user specific dashboard settings
+async function updateUserWatchlist(username, watchlist) {
+  return await userCollection.updateOne(
+    { username: username },
+    { $set: { watchlist: watchlist } }
+  );
+}
+
 module.exports = { 
   getUser,
   getUserByToken,
@@ -83,5 +97,7 @@ module.exports = {
   getLogins,
   addWatchlistUpdate,
   getCommunityUpdates,
+  updateUserWatchlist,
+  getUserWatchlist,
   updateUserWatchlist
 };
