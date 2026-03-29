@@ -11,27 +11,17 @@ export function Community() {
     });
 
     React.useEffect(() => {
-        const loginsText = localStorage.getItem('communityLogins');
-        if (loginsText) {
-            setCommunityLogins(JSON.parse(loginsText));
-        }
 
         function fetchUpdates() {
             fetch('/api/community-updates')
                 .then((response) => response.json())
-                .then((communityUpdates) => {
-                    setUpdates(communityUpdates);
-                    localStorage.setItem('community_cache', JSON.stringify(communityUpdates));
-                })
-                .catch((err) => console.log("Backend not reached yet:", err));
+                .then((data) => setUpdates(data));
 
-               fetch('/api/logins')
+                fetch('/api/logins')
                     .then((res) => res.json())
-                    .then((data) => {
-                        setCommunityLogins(data);
-                    })
-                    .catch((err) => console.log("Login fetch error:", err)); 
+                    .then((data) => setCommunityLogins(data)); 
         }
+        
         fetchUpdates();
         const interval = setInterval(fetchUpdates, 5000)
         return () => clearInterval(interval);
