@@ -88,7 +88,7 @@ apiRouter.delete('/auth/logout', async (req, res) => {
 
 // Middleware to verify that the user is authorized to call an endpoint
 const verifyAuth = async (req, res, next) => {
-  const user = await findUser('token', req.cookies[authCookieName]);
+  const user = await DB.getUserByToken(req.cookies[authCookieName]);
   if (user) {
     next();
   } else {
@@ -97,8 +97,9 @@ const verifyAuth = async (req, res, next) => {
 };
 
 // endpoint for Community page to fetch login list
-apiRouter.get('/logins', (req, res) => {
-    res.send(userCommunity);
+apiRouter.get('/logins', async (req, res) => {
+    const logins = await DB.getLogins();
+    res.send(logins)    
 });
 
 // test like simon exapmple
@@ -109,18 +110,19 @@ apiRouter.get('/test', (_req, res) => {
 });
 
 // Get community updates
-apiRouter.get('/community-updates', (_req, res) => {
+apiRouter.get('/community-updates', async (_req, res) => {
   console.log("In community");
+  const communityUpdates = await DB.getCommunityUpdates();
   // eventually gonnna return list of community updates here
   res.send(communityUpdates);
 });
 
 // Update a user's watchlist
-apiRouter.post('/update-watchlist', verifyAuth, (req, res) => {
+apiRouter.post('/update-watchlist', verifyAuth, async (req, res) => {
     console.log("In update watchlist");
     const userSelectionUpdate = req.body;
 
-    communityUpdates.unshift(userSelectionUpdate);
+    await DB.addWatchlistUpdate(userSelectionUpdate)
     communityUpdates = communityUpdates.slice(0, 4);
 
     console.log(`${userSelectionUpdate.user} started tracking ${userSelectionUpdate.asset}`);
