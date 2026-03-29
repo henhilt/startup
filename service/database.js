@@ -1,11 +1,14 @@
 const { MongoClient } = require('mongodb');
 const config = require('./dbConfig.json');
+const bcrypt = require('bcryptjs');
+const uuid = require('uuid');
 
 const url = `mongodb+srv://${config.userName}:${config.password}@${config.hostname}`;
 const client = new MongoClient(url);
 const db = client.db('startup');
 const userCollection = db.collection('user');
-const scoreCollection = db.collection('score');
+const updateCollection = db.collection('update');
+const loginCollection = db.collection('login');
 
 // This will asynchronously test the connection and exit the process if it fails
 (async function testConnection() {
@@ -39,24 +42,20 @@ async function createUser(username, password) {
     return user;
 }
 
-async function addUser(user) {
-  await userCollection.insertOne(user);
+async function updateUserToken(username, token) {
+  await userCollection.updateOne({ username: username }, { $set: {token: token} });
 }
 
-async function updateUser(user) {
-  await userCollection.updateOne({ email: user.email }, { $set: user });
-}
-
-async function updateUserRemoveAuth(user) {
-  await userCollection.updateOne({ email: user.email }, { $unset: { token: 1 } });
+async function logoutUser(token) {
+  await userCollection.updateOne({ token: token }, { $unset: { token: 1 } });
 }
 
 function addLogin(loginEntry) {
-  return loginCollectionn.insertOne(loginEntry);
+  return loginCollection.insertOne(loginEntry);
 }
 
 function getLogins() {
-  return loginCollection.find(),sort({ _id: -1 }).limit(10).toArray();
+  return loginCollection.find().sort({ _id: -1 }).limit(10).toArray();
 }
 
 function addWatchlistUpdate(update) {
@@ -64,13 +63,15 @@ function addWatchlistUpdate(update) {
 }
 
 function getCommunityUpdates() {
-  return updateCollection.find(),sort({ _id: -1 }).limit(4).toArray();
+  return updateCollection.find().sort({ _id: -1 }).limit(4).toArray();
 }
 
 module.exports = { 
   getUser,
   getUserByToken,
   createUser,
+  updateUserToken,
+  logoutUser,
   addLogin,
   getLogins,
   addWatchlistUpdate,
