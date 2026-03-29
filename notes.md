@@ -55,3 +55,7 @@ make sure to use port 4000 for backend service
 
 new deploy script
 ./deployService.sh -k "C:\Users\hilto\Documents\BYU\Winter2026\Key260\production.pem" -h findash260.click -s startup
+
+## Database
+sometimes it won't work to connect until you deploy your environment
+
