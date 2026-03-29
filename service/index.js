@@ -37,13 +37,16 @@ apiRouter.post('/auth/create', async (req, res) => {
     const password = req.body.password;
 
 
-    if (await findUser('username', username)) {
+    if (await DB.getUser(username)) {
         res.status(409).send({ msg: 'Existing user' });
     } else {
-        const user = await createUser(username, password);
+        const user = await DB.createUser(username, password);
         setAuthCookie(res, user.token);
 
-        userCommunity.unshift({ name: username, time: new Date().toLocaleTimeString() });
+        await DB.addloginEvent({
+            name: username,
+            time: new Date().toLocaleDateString()
+        });
 
         res.send({ username: user.username });
     }
@@ -181,19 +184,6 @@ app.use(function (err, req, res, next) {
 app.use((_req, res) => {
   res.sendFile('index.html', { root: 'public' });
 });
-
-async function createUser(username, password) {
-
-    const passwordHash = await bcrypt.hash(password, 10);
-
-    const user = {
-        username: username,
-        password: passwordHash,
-        token: uuid.v4(),
-    };
-    users.push(user);
-    return user;
-}
 
 async function findUser(field, value) {
   if (!value) return null;
