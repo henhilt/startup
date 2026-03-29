@@ -54,7 +54,7 @@ export function Dashboard({userName}) {
     }, []);
 
     React.useEffect(() => {
-    fetch('/user-data', { credentials: 'include' })
+    fetch('/api/user-data', { credentials: 'include' })
         .then((res) => res.json())
         .then((userData) => {
             if (userData.watchlist) {
@@ -74,7 +74,7 @@ export function Dashboard({userName}) {
         };
         setActiveCharts(updatedCharts);
 
-        fetch('/api/save-watchlist-setting', {
+        fetch('/api/save-watchlist-settings', {
             method: 'POST',
             body: JSON.stringify({watchlist: updatedCharts}),
             headers: {'Content-type': 'application/json'},
