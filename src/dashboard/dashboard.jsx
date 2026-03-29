@@ -7,16 +7,10 @@ export function Dashboard({userName}) {
 
     const [localMessage, setLocalMessage] = React.useState('');
   
-    const [activeCharts, setActiveCharts] = React.useState(() => {
-        const userKey = `watchlist_${userName}`;
-        const saved = localStorage.getItem(userKey);
-        const initialValue = JSON.parse(saved);
-
-        return initialValue || {
+    const [activeCharts, setActiveCharts] = React.useState({
             'CPI': false,
             'FEDFUNDS': false,
             'MANU': false
-        };
     });
 
     const [FEDFUNDS, setFedRate] = React.useState('...');
@@ -60,17 +54,32 @@ export function Dashboard({userName}) {
     }, []);
 
     React.useEffect(() => {
-        const userKey = `watchlist_${userName}`;
-        localStorage.setItem(userKey, JSON.stringify(activeCharts));}, [activeCharts, userName]);
+    fetch('/user-data', { credentials: 'include' })
+        .then((res) => res.json())
+        .then((userData) => {
+            if (userData.watchlist) {
+                setActiveCharts(userData.watchlist);
+            }
+        })
+        .catch((err) => console.log("Database not reached yet:", err));
+    }, []);
 
     function onCheckboxChange(event) {
         const assetName = event.target.name;
         const isChecked = event.target.checked;
 
-        setActiveCharts(prev => ({
-            ...prev,
+        const updatedCharts = {
+            ...activeCharts,
             [assetName]: isChecked
-        }));
+        };
+        setActiveCharts(updatedCharts);
+
+        fetch('/api/save-watchlist-setting', {
+            method: 'POST',
+            body: JSON.stringify({watchlist: updatedCharts}),
+            headers: {'Content-type': 'application/json'},
+            credentials: 'include',
+        });
 
         if (isChecked) {
             DashNotifier.broadcastEvent(userName, DashEvent.Watchlist, { 
@@ -194,6 +203,7 @@ function saveCommunityWatchlist(userName, assetName, setWatchlist) {
         method: 'POST',
         body: JSON.stringify(newUpdate),
         headers: { 'Content-type': 'application/json' },
+        credentials: 'include',
     })
     .then((response) => response.json())
     .then((data) => {
