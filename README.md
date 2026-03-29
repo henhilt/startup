@@ -104,8 +104,8 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] **Stores data in MongoDB** - I did not complete this part of the deliverable.
-- [ ] **Stores credentials in MongoDB** - I did not complete this part of the deliverable.
+- [x] **Stores data in MongoDB** - updated my community watchlist and each user watchlist data to be stored in database and not locally.
+- [x] **Stores credentials in MongoDB** - updated login data to be stored in database in Mongo and not locally, making it permanent.
 
 ## 🚀 WebSocket deliverable
 

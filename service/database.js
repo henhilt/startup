@@ -66,6 +66,13 @@ function getCommunityUpdates() {
   return updateCollection.find().sort({ _id: -1 }).limit(4).toArray();
 }
 
+async function updateUserWatchlist(username, watchlist) {
+  return userCollection.updateOne(
+    { username: username },
+    { $set: { watchlist: watchlist } }
+  );
+}
+
 module.exports = { 
   getUser,
   getUserByToken,
@@ -75,5 +82,6 @@ module.exports = {
   addLogin,
   getLogins,
   addWatchlistUpdate,
-  getCommunityUpdates
+  getCommunityUpdates,
+  updateUserWatchlist
 };

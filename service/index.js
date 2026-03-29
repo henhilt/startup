@@ -100,6 +100,27 @@ apiRouter.get('/logins', async (req, res) => {
     res.send(logins)    
 });
 
+// get saved dashboard selections frpm Mongo
+apiRouter.get('/user-data', verifyAuth, async (req, res) => {
+    const user = await DB.getUserByToken(req.cookies[authCookieName]);
+    if (user) {
+        res.send({ watchlist: user.watchlist || {} });
+    } else {
+        res.status(404).send({ msg: 'User not found' });
+    }
+});
+
+// save dashboard selections to Mongo
+apiRouter.post('/save-watchlist-settings', verifyAuth, async (req, res) => {
+    const user = await DB.getUserByToken(req.cookies[authCookieName]);
+    if (user) {
+        await DB.updateUserWatchlist(user.username, req.body.watchlist);
+        res.send({ msg: 'Watchlist updated' });
+    } else {
+        res.status(401).send({ msg: 'Unauthorized' });
+    }
+});
+
 // test like simon exapmple
 var testdata = {test:"testdata"}
 apiRouter.get('/test', (_req, res) => {
