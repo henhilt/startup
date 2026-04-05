@@ -28,15 +28,23 @@ class DashEventNotifier {
     };
     this.socket.onmessage = async (msg) => {
       try {
-        const event = JSON.parse(await msg.data.text());
-        this.receiveEvent(event);
-      } catch {}
+          // If it's a Blob, convert to text; otherwise use as is
+          const text = typeof msg.data.text === 'function' ? await msg.data.text() : msg.data;
+          const event = JSON.parse(text);
+          this.receiveEvent(event);
+      } catch (err) {
+          console.error("Failed to parse WebSocket message:", err);
+      }
     };
   }
 
   broadcastEvent(from, type, value) {
     const event = new EventMessage(from, type, value);
+    if (this.socket && this.socket.readyState === WebSocket.OPEN) {
     this.socket.send(JSON.stringify(event));
+    } else {
+        console.warn("WebSocket is not open yet. Message queued or dropped.");
+    }
   }
 
   addHandler(handler) {
@@ -44,7 +52,7 @@ class DashEventNotifier {
   }
 
   removeHandler(handler) {
-    this.handlers = this.handlers((h) => h !== handler);
+    this.handlers = this.handlers.filter((h) => h !== handler);
   }
 
   receiveEvent(event) {

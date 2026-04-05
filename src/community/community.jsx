@@ -1,6 +1,7 @@
 import React from 'react';
 import {Button} from 'react-bootstrap'
 import './community.css'
+import {DashNotifier, DashEvent} from '../dashboard/dashNotifier'
 
 export function Community() {
 
@@ -12,19 +13,22 @@ export function Community() {
 
     React.useEffect(() => {
 
-        function fetchUpdates() {
-            fetch('/api/community-updates')
-                .then((response) => response.json())
-                .then((data) => setUpdates(data));
+        fetch('/api/community-updates')
+            .then((response) => response.json())
+            .then((data) => setUpdates(data));
 
-                fetch('/api/logins')
-                    .then((res) => res.json())
-                    .then((data) => setCommunityLogins(data)); 
-        }
-        
-        fetchUpdates();
-        const interval = setInterval(fetchUpdates, 5000)
-        return () => clearInterval(interval);
+        fetch('/api/logins')
+            .then((res) => res.json())
+            .then((data) => setCommunityLogins(data)); 
+        const handleNewUpdate = (event) => {
+            if (event.type === DashEvent.Watchlist || event.type === DashEvent.Login) {
+                setUpdates((prevUpdates) => [event, ...prevUpdates]);
+            }
+        };
+        DashNotifier.addHandler(handleNewUpdate);
+        return () => {
+            DashNotifier.removeHandler(handleNewUpdate);
+        };
     }, []);
 
 /* simon test

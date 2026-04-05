@@ -5,7 +5,7 @@ const express = require('express');
 const uuid = require('uuid');
 const app = express();
 const DB = require('./database.js');
-const {peerProxy} = require('./peerProxy.js');
+const {peerProxy, broadcast} = require('./peerProxy.js');
 
 const authCookieName = 'token';
 
@@ -20,8 +20,6 @@ app.use(express.json());
 // Use the cookie parser middleware for tracking authentication tokens
 app.use(cookieParser());
 
-// Serve up the front-end static content hosting
-app.use(express.static('../dist'));
 
 // Router for service endpoints
 const apiRouter = express.Router();
@@ -66,6 +64,7 @@ apiRouter.post('/auth/login', async (req, res) => {
                 time: new Date().toLocaleTimeString()
             });
 
+            broadcast({ from: username, type: 'userLogin', value: { date: new Date().toLocaleTimeString() } });
             res.send({ username: user.username });
             return;
         }
@@ -146,6 +145,12 @@ apiRouter.post('/update-watchlist', verifyAuth, async (req, res) => {
 
     await DB.addWatchlistUpdate(userSelectionUpdate)
 
+    broadcast({ 
+        from: userSelectionUpdate.user, 
+        type: 'addToWatchList', 
+        value: { asset: userSelectionUpdate.asset } 
+    });
+
     console.log(`${userSelectionUpdate.user} started tracking ${userSelectionUpdate.asset}`);
     res.status(200).send({ msg: `${userSelectionUpdate.asset} added to watchlist` })
 });
@@ -222,19 +227,15 @@ function setAuthCookie(res, authToken) {
 }
 
 
-const httpService = app.listen(port, () => {
-  console.log(`Listening on port ${port}`);
-});
-
-
-peerProxy(httpService);
-
-
-app.listen(port, () => {
-  console.log(`Listening on port ${port}`);
-});
-
+// Serve up the front-end static content hosting
+app.use(express.static('../dist'));
 
 app.use((_req, res) => {
   res.sendFile('index.html', { root: '../dist' });
 });
+
+const httpService = app.listen(port, () => {
+  console.log(`Listening on port ${port}`);
+});
+
+peerProxy(httpService);
