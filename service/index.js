@@ -40,7 +40,13 @@ apiRouter.post('/auth/create', async (req, res) => {
 
         await DB.addLogin({
             name: username,
-            time: new Date().toLocaleDateString()
+            time: new Date().toLocaleTimeString()
+        });
+
+        broadcast({ 
+            from: username, 
+            type: 'userLogin', 
+            value: { date: new Date().toLocaleTimeString() }
         });
 
         res.send({ username: user.username });

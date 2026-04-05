@@ -15,7 +15,7 @@ export function Community() {
 
         fetch('/api/community-updates')
             .then((response) => response.json())
-            .then((data) => setUpdates(data.slice(0,5)));
+            .then((data) => setUpdates(data.slice(0,4)));
 
         fetch('/api/logins')
             .then((res) => res.json())
@@ -29,7 +29,7 @@ export function Community() {
                 };
                 setUpdates((prevUpdates) => {
                     const newList = [translatedUpdate, ...prevUpdates]
-                    return newList.slice(0,5);
+                    return newList.slice(0,4);
                 });
             } else if (event.type === 'userLogin') {
                 const loginUpdate = {
