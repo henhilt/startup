@@ -17,23 +17,26 @@ class DashEventNotifier {
   handlers = [];
 
   constructor() {
-    // Simulate chat messages that will eventually come over WebSocket
-    setInterval(() => {
-      const assets =['CPI', ',AAPL', 'Fed Funds Rate'];
-      const randAsset = Math.floor(Math.random() * AsyncDisposableStack.length);
-      const userName = 'Ed H';
-      const date = new Date().toLocaleDateString();
-      this.broadcastEvent(userName, DashEvent.Watchlist, { 
-        userName: userName, 
-        asset: randAsset, 
-        date: date 
-      });
-    }, 5000);
+    let port = window.location.port;
+    const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
+    this.socket = new WebSocket(`${protocol}://${window.location.host}/ws`);
+    this.socket.onopen = (event) => {
+      this.receiveEvent(new EventMessage('Dashboard', DashEvent.System, { msg: 'connected' }));
+    };
+    this.socket.onclose = (event) => {
+      this.receiveEvent(new EventMessage('Dashboard', DashEvent.System, { msg: 'disconnected' }));
+    };
+    this.socket.onmessage = async (msg) => {
+      try {
+        const event = JSON.parse(await msg.data.text());
+        this.receiveEvent(event);
+      } catch {}
+    };
   }
 
   broadcastEvent(from, type, value) {
     const event = new EventMessage(from, type, value);
-    this.receiveEvent(event);
+    this.socket.send(JSON.stringify(event));
   }
 
   addHandler(handler) {
@@ -41,7 +44,7 @@ class DashEventNotifier {
   }
 
   removeHandler(handler) {
-    this.handlers.filter((h) => h !== handler);
+    this.handlers = this.handlers((h) => h !== handler);
   }
 
   receiveEvent(event) {
