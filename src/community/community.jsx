@@ -15,25 +15,30 @@ export function Community() {
 
         fetch('/api/community-updates')
             .then((response) => response.json())
-            .then((data) => setUpdates(data));
+            .then((data) => setUpdates(data.slice(0,5)));
 
         fetch('/api/logins')
             .then((res) => res.json())
             .then((data) => setCommunityLogins(data)); 
         const handleNewUpdate = (event) => {
-            if (event.type === DashEvent.Watchlist || event.type === DashEvent.Login) {
+            if (event.type === 'addToWatchList') {
                 const translatedUpdate = {
                     user: event.from,
                     action: ' started tracking ',
                     asset: event.value.asset
                 };
-                setUpdates((prevUpdates) => [translatedUpdate, ...prevUpdates]);
-            } else if (event.type === DashEvent.Login) {
+                setUpdates((prevUpdates) => {
+                    const newList = [translatedUpdate, ...prevUpdates]
+                    return newList.slice(0,5);
+                });
+            } else if (event.type === 'userLogin') {
                 const loginUpdate = {
-                    user: event.from,
-                    action: ' logged in ',
-                    asset: event.value?.date || ''
+                    name: event.from,
+                    time: event.value.date
                 };
+                setCommunityLogins((prevLogins) => {
+                    return [loginUpdate, ...prevLogins].slice(0,5);
+                })
             }
         };
         DashNotifier.addHandler(handleNewUpdate);
