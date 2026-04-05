@@ -1,3 +1,4 @@
+require('node:dns/promises').setServers(['8.8.8.8', '1.1.1.1']);
 const cookieParser = require('cookie-parser');
 const bcrypt = require('bcryptjs');
 const express = require('express');
@@ -19,7 +20,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 // Serve up the front-end static content hosting
-app.use(express.static('public'));
+app.use(express.static('../dist'));
 
 // Router for service endpoints
 const apiRouter = express.Router();
@@ -202,10 +203,12 @@ app.use(function (err, req, res, next) {
   res.status(500).send({ type: err.name, message: err.message });
 });
 
+/*
 // Return the application's default page if the path is unknown
 app.use((_req, res) => {
   res.sendFile('index.html', { root: 'public' });
 });
+*/
 
 // setAuthCookie in the HTTP response
 function setAuthCookie(res, authToken) {
@@ -217,6 +220,17 @@ function setAuthCookie(res, authToken) {
   });
 }
 
+const httpService = app.listen(port, () => {
+  console.log(`Listening on port ${port}`);
+});
+
+peerProxy(httpService);
+
 app.listen(port, () => {
   console.log(`Listening on port ${port}`);
+});
+
+
+app.use((_req, res) => {
+  res.sendFile('index.html', { root: '../dist' });
 });
