@@ -55,7 +55,7 @@ function addLogin(loginEntry) {
 }
 
 function getLogins() {
-  return loginCollection.find().sort({ _id: -1 }).limit(10).toArray();
+  return loginCollection.find().sort({ _id: -1 }).limit(5).toArray();
 }
 
 function addWatchlistUpdate(update) {
