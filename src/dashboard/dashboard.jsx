@@ -66,20 +66,23 @@ export function Dashboard({userName}) {
         .catch((err) => console.log("Database not reached yet:", err));
     }, []);
 
+
     React.useEffect(() => {
-        DashNotifier.addHandler((event) => {
-            if (event.from !== userName) {
+        const handleIncoming = (event) => {
+            if (event.from !== userName && event.type === DashEvent.Watchlist) {
                 setNotifications((prev) => [event, ...prev]);
                 setTimeout(() => {
                     setNotifications((prev) => prev.filter(n => n !== event));
                 }, 5000);
             }
-        });
+        };
+
+        DashNotifier.addHandler(handleIncoming);
 
         return () => {
             DashNotifier.removeHandler();
         };
-    }, []);
+    }, [userName]);
 
 
     function onCheckboxChange(event) {
@@ -100,11 +103,6 @@ export function Dashboard({userName}) {
         });
 
         if (isChecked) {
-            DashNotifier.broadcastEvent(userName, DashEvent.Watchlist, { 
-                asset: assetName, 
-                date: new Date().toLocaleTimeString() 
-            });
-
 
             saveCommunityWatchlist(userName, assetName, setLocalMessage)
 

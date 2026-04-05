@@ -22,7 +22,18 @@ export function Community() {
             .then((data) => setCommunityLogins(data)); 
         const handleNewUpdate = (event) => {
             if (event.type === DashEvent.Watchlist || event.type === DashEvent.Login) {
-                setUpdates((prevUpdates) => [event, ...prevUpdates]);
+                const translatedUpdate = {
+                    user: event.from,
+                    action: ' started tracking ',
+                    asset: event.value.asset
+                };
+                setUpdates((prevUpdates) => [translatedUpdate, ...prevUpdates]);
+            } else if (event.type === DashEvent.Login) {
+                const loginUpdate = {
+                    user: event.from,
+                    action: ' logged in ',
+                    asset: event.value?.date || ''
+                };
             }
         };
         DashNotifier.addHandler(handleNewUpdate);
