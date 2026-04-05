@@ -5,6 +5,8 @@ import './dashboard.css'
 
 export function Dashboard({userName}) {
 
+    const [notifications, setNotifications] = React.useState([]);
+
     const [localMessage, setLocalMessage] = React.useState('');
   
     const [activeCharts, setActiveCharts] = React.useState({
@@ -64,6 +66,22 @@ export function Dashboard({userName}) {
         .catch((err) => console.log("Database not reached yet:", err));
     }, []);
 
+    React.useEffect(() => {
+        DashNotifier.addHandler((event) => {
+            if (Event.from !== userName) {
+                setNotifications((prev) => [event, ...prev]);
+                setTimeout(() => {
+                    setNotifications((prev) => prev.filter(n => n !== event));
+                }, 5000);
+            }
+        });
+
+        return () => {
+            DashNotifier.removeHandler();
+        };
+    }, []);
+
+
     function onCheckboxChange(event) {
         const assetName = event.target.name;
         const isChecked = event.target.checked;
@@ -96,6 +114,25 @@ export function Dashboard({userName}) {
 
 return (
     <main className="dashboard-page" style={{ overflowX: 'auto' }}>
+        
+        <div style={{ 
+            position: 'fixed', 
+            top: '20px', 
+            right: '20px', 
+            zIndex: 9999, 
+            display: 'flex', 
+            flexDirection: 'column', 
+            gap: '10px' 
+        }}>
+            {notifications.map((note, index) => (
+                <div key={index} className="alert alert-success shadow-lg border-0" style={{ minWidth: '300px' }}>
+                    <strong>{note.from}</strong> 
+                    <span> started tracking </span>
+                    <span style={{ color: '#22ce34', fontWeight: 'bold' }}>{note.value.asset}</span>
+                </div>
+            ))}
+        </div>
+        
         <div style={{ minWidth: '1300px', position: 'relative' }}>
             <br/>
             <h2>Your Dashboard</h2>
