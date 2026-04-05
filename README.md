@@ -111,8 +111,8 @@ For this deliverable I did the following. I checked the box `[x]` and added a de
 
 For this deliverable I did the following. I checked the box `[x]` and added a description for things I completed.
 
-- [ ] **Backend listens for WebSocket connection** - I did not complete this part of the deliverable.
-- [ ] **Frontend makes WebSocket connection** - I did not complete this part of the deliverable.
-- [ ] **Data sent over WebSocket connection** - I did not complete this part of the deliverable.
-- [ ] **WebSocket data displayed** - I did not complete this part of the deliverable.
-- [ ] **Application is fully functional** - I did not complete this part of the deliverable.
+- [x] **Backend listens for WebSocket connection** - peerProxy.js file to set up WebSocket service and manage connections with HTTP
+- [x] **Frontend makes WebSocket connection** - dashNotifier.js that handles WS connection and links with Community page
+- [x] **Data sent over WebSocket connection** - updates personal watchlist, updates logins, with broadcasts for each
+- [x] **WebSocket data displayed** - Community page watchlist and login tables update live as other users make changes/login, get notifications about other user picks on Dashboard page
+- [x] **Application is fully functional** - No more placeholders and kept all previous functionality.
