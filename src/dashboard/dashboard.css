@@ -11,6 +11,30 @@ html, body {
     width: 100%;
     display: flex;
     flex-direction: column;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* src/dashboard/dashboard.css */
+
+/* Target the specific notification alerts and the data badges */
+.alert, 
+.badge, 
+.form-check-label,
+.dashboard-page h2 {
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif !important;
+}
+
+/* Ensure the numbers in your badges are crisp and aligned */
+.badge {
+    font-weight: 500;
+    letter-spacing: 0.02em;
+}
+
+/* This targets the "started tracking" text specifically */
+.alert span, .alert strong {
+    font-family: inherit;
 }
 
 .chart-box {
